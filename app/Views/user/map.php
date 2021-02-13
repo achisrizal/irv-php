@@ -36,12 +36,16 @@
                     <div class="col">
                         Min Amplitude : <span id="amplitude"></span> m/s<sup>2</sup>
                     </div>
+                    <hr />
+                    <div class="border-left-danger pl-3">
+                        <b>Catatan :</b> Sementara baru ada data Stasiun Yogyakarta, Payukan, dan Rewulu.
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+
 <!-- /.container-fluid -->
 <?= $this->endSection(); ?>
 
@@ -60,6 +64,7 @@
 
 <!-- Data -->
 <script src="<?= base_url(); ?>/js/data.js"></script>
+<script src="<?= base_url(); ?>/js/stasiun.js"></script>
 
 <!-- Custom scripts for Map-->
 <script src="<?= base_url(); ?>/js/map.js"></script>
