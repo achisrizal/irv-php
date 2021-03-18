@@ -8,63 +8,68 @@ var tiles = L.tileLayer(
     attribution:
       '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     apikey: "ef85ec23377f400f80385d6a0a9249da",
-    maxZoom: 22,
   }
 ).addTo(map);
 
 var slider = document.getElementById("myRange");
 var output = document.getElementById("amplitude");
 output.innerHTML = slider.value;
-dataShow();
+showData();
 
 slider.oninput = function () {
   output.innerHTML = this.value;
   clearLayer();
-  dataShow();
+  showData();
 };
 
-var dataBaru, b, heat, marker, circle, i, stasiunTerdekat, c;
+var dataBaru, heat, a;
 
-function dataShow() {
-  (dataBaru = []), (b = []);
+function showData() {
+  (dataBaru = []), (a = []);
 
-  for (i = 0; i < data.length; i++) {
-    if (data[i][2] >= output.innerHTML) {
+  for (var i = 0; i < data.length; i++) {
+    if (parseFloat(data[i].amplitude) >= output.textContent) {
       dataBaru.push(data[i]);
     }
   }
 
-  heat = new L.heatLayer(dataBaru, { radius: 15 }).addTo(map);
+  heat = new L.heatLayer(dataBaru, {
+    radius: 15,
+    maxZoom: 8,
+  }).addTo(map);
 
-  for (i = 0; i < dataBaru.length; i++) {
+  for (var i = 0; i < dataBaru.length; i++) {
     var contentPopup =
       "Amplitude : " +
-      dataBaru[i][2] +
-      "  m/s<sup>2</sup> <br> latitude : " +
-      dataBaru[i][0] +
-      "<br> Longitude : " +
-      dataBaru[i][1] +
-      "<br> Kecepatan : - km/h";
+      dataBaru[i].amplitude +
+      " m/s<sup>2</sup><br>Latitude : " +
+      dataBaru[i].lat +
+      "<br>Longitude : " +
+      dataBaru[i].lng +
+      "<br>Kecepatan : - km/h<br><br><b>" +
+      dataBaru[i].name +
+      "</b>";
 
-    circle = new L.circleMarker([dataBaru[i][0], dataBaru[i][1]], {
+    var circle = new L.circleMarker([dataBaru[i].lat, dataBaru[i].lng], {
       color: "transparent",
       fillColor: "transparent",
       radius: 10,
     })
       .addTo(map)
-      // bindPopup(contentPopup);
       .bindTooltip(contentPopup, { direction: "top" });
 
-    b.push(circle);
+    a.push(circle);
   }
 }
 
 function clearLayer() {
-  for (i = 0; i < b.length; i++) {
-    map.removeLayer(b[i]);
+  for (i = 0; i < a.length; i++) {
+    map.removeLayer(a[i]);
   }
   map.removeLayer(heat);
 }
+
+var stasiunTerdekat, c;
 
 map.on("click", function (e) {
   if (c != null) {
@@ -75,26 +80,23 @@ map.on("click", function (e) {
 
   (stasiunTerdekat = []), (c = []);
 
-  for (i = 0; i < stasiun.length; i++) {
+  for (i = 0; i < stations.length; i++) {
     if (
-      e.latlng.lat - stasiun[i][2] <= 0.03 &&
-      e.latlng.lng - stasiun[i][3] <= 0.03
+      e.latlng.lat - stations[i].lat <= 0.05 &&
+      e.latlng.lng - stations[i].lng <= 0.05 &&
+      e.latlng.lat - stations[i].lat >= -0.05 &&
+      e.latlng.lng - stations[i].lng >= -0.05
     ) {
-      if (
-        e.latlng.lat - stasiun[i][2] >= -0.03 &&
-        e.latlng.lng - stasiun[i][3] >= -0.03
-      ) {
-        stasiunTerdekat.push(stasiun[i]);
-      }
+      stasiunTerdekat.push(stations[i]);
     }
   }
 
-  for (i = 0; i < stasiunTerdekat.length; i++) {
-    var contentPopup = stasiunTerdekat[i][1];
+  for (i = 0; i < 2; i++) {
+    var contentPopup = stasiunTerdekat[i].name;
 
-    marker = new L.marker([
-      stasiunTerdekat[i][2],
-      stasiunTerdekat[i][3],
+    var marker = new L.marker([
+      stasiunTerdekat[i].lat,
+      stasiunTerdekat[i].lng,
     ]).bindPopup(contentPopup);
 
     c.push(marker);

@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use CodeIgniter\Commands\Utilities\Routes;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -33,11 +35,19 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/home', 'Home::index');
 
-$routes->get('/', 'User::index', ['filter' => 'role:superadmin']);
-$routes->get('/index', 'User::index', ['filter' => 'role:superadmin']);
+$routes->get('/', 'Superadmin::index', ['filter' => 'role:superadmin']);
+$routes->get('/index', 'Superadmin::index', ['filter' => 'role:superadmin']);
 
-$routes->get('/map', 'Map::index');
-$routes->get('/components', 'Components::index');
+$routes->get('/device', 'Device::index');
+
+// $routes->get('/manage-admin', 'ManageAdmin', ['filter' => 'role:superadmin']);
+// $routes->delete('/manage-admin/delete/(:num)', 'ManageAdmin::delete/$1', ['filter' => 'role:superadmin']);
+
+$routes->resource('manage-admin', ['controller' => 'Manageadmin', 'filter' => 'role:superadmin']);
+$routes->resource('stations', ['controller' => 'Stations']);
+$routes->resource('map', ['controller' => 'Map']);
+
+$routes->resource('positions', ['controller' => 'Positions', 'filter' => 'role:superadmin']);
 
 
 /*

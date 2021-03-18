@@ -32,7 +32,7 @@ class Database extends Config
 	 */
 	public $default = [
 		'DSN'      => '',
-		'hostname' => '139.180.129.152',
+		'hostname' => 'localhost',
 		'username' => 'root',
 		'password' => 'CtK,#.9Aj@MQte>j',
 		'database' => 'irv_php',

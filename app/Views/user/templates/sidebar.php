@@ -13,8 +13,8 @@
 
     <?php if (in_groups('superadmin')) : ?>
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url(); ?>">
+        <li class="nav-item <?= uri_string() == '/' ? 'active' : '' ?>">
+            <a class="nav-link " href="<?= base_url(); ?>">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
@@ -28,16 +28,32 @@
         Menu
     </div>
 
-    <!-- Nav Item - Components -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url(); ?>/components">
+    <!-- Nav Railway Station - Railway Station -->
+    <li class="nav-item <?= uri_string() == 'stations' ? 'active' : '' ?>">
+        <a class="nav-link" href="<?= base_url('stations'); ?>">
+            <i class="fas fa-fw fa-train"></i>
+            <span>Railway Station</span></a>
+    </li>
+
+    <?php if (in_groups('superadmin')) : ?>
+        <!-- Nav Item - Positions -->
+        <li class="nav-item <?= uri_string() == 'positions' ? 'active' : '' ?>">
+            <a class="nav-link" href="<?= base_url('positions'); ?>">
+                <i class="fas fa-fw fa-pallet"></i>
+                <span>Device Position</span></a>
+        </li>
+    <?php endif; ?>
+
+    <!-- Nav Item - Device -->
+    <li class="nav-item <?= uri_string() == 'device' ? 'active' : '' ?>">
+        <a class="nav-link" href="<?= base_url('device'); ?>">
             <i class="fas fa-fw fa-pallet"></i>
-            <span>Components</span></a>
+            <span>Device</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url(); ?>/map">
+    <li class="nav-item <?= uri_string() == 'map' ? 'active' : '' ?>">
+        <a class="nav-link" href="<?= base_url('map'); ?>">
             <i class="fas fa-fw fa-map"></i>
             <span>Map</span></a>
     </li>
@@ -52,14 +68,14 @@
         </div>
 
         <!-- Nav Item - User -->
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url(); ?>">
+        <li class="nav-item <?= uri_string() == 'manage-admin' ? 'active' : '' ?>">
+            <a class="nav-link" href="<?= base_url('manage-admin'); ?>">
                 <i class="fas fa-fw fa-users"></i>
                 <span>Administrator</span></a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url(); ?>">
+        <li class="nav-item <?= uri_string() == 'user' ? 'active' : '' ?>">
+            <a class="nav-link" href="<?= base_url('user'); ?>">
                 <i class="fas fa-fw fa-users"></i>
                 <span>User</span></a>
         </li>
