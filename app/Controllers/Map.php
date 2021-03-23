@@ -6,17 +6,19 @@ use CodeIgniter\RESTful\ResourceController;
 use \App\Models\StationsModel;
 use \App\Models\DataModel;
 use \App\Models\PositionsModel;
+use \App\Models\DatesModel;
 use CodeIgniter\I18n\Time;
 
 class Map extends ResourceController
 {
-	protected $stationsModel, $dataModel, $positionsModel;
+	protected $stationsModel, $dataModel, $positionsModel, $datesModel;
 
 	public function __construct()
 	{
 		$this->stationsModel = new StationsModel();
 		$this->dataModel = new DataModel();
 		$this->positionsModel = new PositionsModel();
+		$this->datesModel = new DatesModel();
 	}
 
 	/**
@@ -26,15 +28,14 @@ class Map extends ResourceController
 	 */
 	public function index()
 	{
-		$a = $this->request->getVar('date');
-		$b = date_create($a);
-		$date = date_format($b, 'd/m/Y');
+		$a = $this->request->getVar('datefilter');
 
-		if ($a) {
-			$result = $this->dataModel->where('date', $date)->getData();
-		} else {
-			$result = $this->dataModel->getData();
-		}
+		// $b = date_create($a);
+		// $date = date_format($b, 'd/m/Y');
+
+		$result = $this->dataModel->where('user_id', user_id())->getData();
+
+
 
 		$data = [
 			'title' => 'Map',
@@ -65,6 +66,7 @@ class Map extends ResourceController
 	{
 		$data = [
 			'positions' => $this->positionsModel->getPositions(),
+			'dates' => $this->datesModel->getDates(),
 			'title' => 'Map - Upload',
 			'validation' => \Config\Services::validation(),
 		];
@@ -81,7 +83,7 @@ class Map extends ResourceController
 	{
 		if (!$this->validate([
 			'date' => 'required',
-			'position_id' => 'required',
+			'position' => 'required',
 			'csv' => 'uploaded[csv]',
 		])) {
 			return redirect()->back()->withInput();
@@ -97,26 +99,24 @@ class Map extends ResourceController
 		while (!feof($file)) {
 			$column = fgetcsv($file, 1000, ",");
 
-			$date = $column[0];
-			$position_id = $column[1];
-			$lat = $column[2];
-			$lng = $column[3];
-			$amplitude = $column[4];
+			$lat = $column[0] ?? '';
+			$lng = $column[1] ?? '';
+			$amplitude = $column[2] ?? '';
 
 			$row = [
-				'date' => $date,
-				'position_id' => $position_id,
+				'user_id' => $this->request->getVar('user_id'),
+				'date_id' => $this->request->getVar('date'),
+				'position_id' => $this->request->getVar('position'),
 				'lat' => $lat,
 				'lng' => $lng,
 				'amplitude' => $amplitude,
 				'created_at' => Time::now(),
 				'updated_at' => Time::now(),
-
 			];
-
-			array_push($data, $row);
+			if ($row['lat'] && $row['lng'] && $row['amplitude'] != '') {
+				array_push($data, $row);
+			}
 		}
-
 		$builder->insertBatch($data);
 		fclose($file);
 
@@ -153,5 +153,28 @@ class Map extends ResourceController
 	public function delete($id = null)
 	{
 		//
+	}
+
+	public function createDate()
+	{
+		if (!$this->validate([
+			'date' => 'required|is_unique[dates.date]',
+		])) {
+			session()->setFlashdata('error', 'Data failed to generate');
+
+			return redirect()->back()->withInput();
+		}
+
+		$date = ucwords($this->request->getVar('date'));
+
+		$data = [
+			'date' => $date,
+		];
+
+		$this->datesModel->save($data);
+
+		session()->setFlashdata('message', 'Data created successfully');
+
+		return redirect()->back();
 	}
 }

@@ -191,7 +191,6 @@ class Stations extends ResourceController
 		while (!feof($file)) {
 			$column = fgetcsv($file, 1000, ",");
 
-			// dd($column);
 			$name = $column[0] ?? '';
 			$lat = $column[1] ?? '';
 			$lng = $column[2] ?? '';
@@ -205,7 +204,10 @@ class Stations extends ResourceController
 				'created_at' => Time::now(),
 				'updated_at' => Time::now(),
 			];
-			array_push($data, $row);
+
+			if ($row['name'] && $row['lat'] && $row['lng'] != '') {
+				array_push($data, $row);
+			}
 		}
 
 		$builder->insertBatch($data);

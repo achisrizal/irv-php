@@ -28,7 +28,7 @@
                     <div class="row align-items-center">
                         <div class="col-4">
                             <form action="">
-                                Date
+                                <label for="datefilter">Date</label>
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" name="datefilter">
                                     <div class="input-group-append">
@@ -105,7 +105,7 @@
         });
 
         $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
         });
 
         $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {

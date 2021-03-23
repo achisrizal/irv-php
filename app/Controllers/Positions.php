@@ -90,7 +90,7 @@ class Positions extends ResourceController
 
 		session()->setFlashdata('message', 'Data created successfully');
 
-		return redirect()->to('/positions');
+		return redirect()->back();
 	}
 
 	/**
