@@ -13,9 +13,10 @@ class DataModel extends Model
     public function getData()
     {
         $builder = $this->table('data');
-        $builder->select('data.id as dataid, date_id, lat, lng, amplitude, name')
+        $builder->select('data.id as dataid, lat, lng, amplitude, date, name')
             ->join('dates', 'dates.id = data.date_id')
-            ->join('positions', 'positions.id = data.position_id');
+            ->join('positions', 'positions.id = data.position_id')
+            ->where('user_id', user_id());
         $query = $builder->get()->getResultArray();
 
         return $query;

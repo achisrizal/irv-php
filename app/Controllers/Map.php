@@ -28,20 +28,23 @@ class Map extends ResourceController
 	 */
 	public function index()
 	{
-		$a = $this->request->getVar('datefilter');
+		// $a = $this->request->getVar('datefilter');
 
 		// $b = date_create($a);
 		// $date = date_format($b, 'd/m/Y');
 
-		$result = $this->dataModel->where('user_id', user_id())->getData();
+		$from = $this->request->getVar('from');
+		$to = $this->request->getVar('to');
+		// d($from, $to);
 
-
+		$result = $this->dataModel->getData();
 
 		$data = [
 			'title' => 'Map',
 			'stations' => json_encode($this->stationsModel->getStations()),
 			'data' => json_encode($result),
 			'positions' => $this->positionsModel->getPositions(),
+			'dates' => json_encode($this->datesModel->getDates()),
 		];
 
 		return view('user/map/index', $data);
@@ -54,7 +57,6 @@ class Map extends ResourceController
 	 */
 	public function show($id = null)
 	{
-		//
 	}
 
 	/**

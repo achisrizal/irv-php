@@ -1,8 +1,7 @@
 <?= $this->extend('user/templates/index'); ?>
 
+
 <?= $this->section('content'); ?>
-
-
 
 <div class="container-fluid">
 
@@ -64,11 +63,13 @@
     <?= $this->include('user/stations/modal'); ?>
 </div>
 
-
 <?= $this->endSection(); ?>
 
+
 <?= $this->section('CSS'); ?>
+
 <link href="<?= base_url(); ?>/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
 <?= $this->endSection(); ?>
 
 

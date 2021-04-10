@@ -46,7 +46,7 @@ $routes->get('/device', 'Device::index');
 $routes->resource('manage-admin', ['controller' => 'Manageadmin', 'filter' => 'role:superadmin']);
 $routes->resource('stations', ['controller' => 'Stations']);
 $routes->resource('map', ['controller' => 'Map']);
-
+$routes->resource('data', ['controller' => 'Data']);
 $routes->resource('positions', ['controller' => 'Positions', 'filter' => 'role:superadmin']);
 
 

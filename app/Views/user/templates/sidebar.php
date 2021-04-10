@@ -61,6 +61,16 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    <!-- Nav Item - Tables -->
+    <li class="nav-item <?= uri_string() == 'map' ? 'active' : '' ?>">
+        <a class="nav-link" href="<?= base_url('map'); ?>">
+            <i class="fas fa-fw fa-list"></i>
+            <span>Data Raw</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
     <?php if (in_groups('superadmin')) : ?>
         <!-- Heading -->
         <div class="sidebar-heading">
