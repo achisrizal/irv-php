@@ -28,16 +28,17 @@ class Map extends ResourceController
 	 */
 	public function index()
 	{
-		// $a = $this->request->getVar('datefilter');
-
-		// $b = date_create($a);
-		// $date = date_format($b, 'd/m/Y');
+		$cek = $this->request->getVar('select');
+		d($cek);
 
 		$from = $this->request->getVar('from');
 		$to = $this->request->getVar('to');
-		// d($from, $to);
+		if ($from == null || $to == null) {
+			$result = $this->dataModel->getData();
+		} else {
+			$result = $this->dataModel->getFilterDate($from, $to);
+		}
 
-		$result = $this->dataModel->getData();
 
 		$data = [
 			'title' => 'Map',
