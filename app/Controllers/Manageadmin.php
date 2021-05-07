@@ -20,12 +20,12 @@ class Manageadmin extends ResourceController
 	 */
 	public function index()
 	{
-		$this->manageadminModel->orderBy('created_at', 'asc');
 		$users = $this->manageadminModel->getUsers();
 
 		$data = [
 			'title' => 'Administrator',
 			'users' => $users,
+			'validation' => \Config\Services::validation(),
 		];
 
 		return view('user/manageadmin/index', $data);
@@ -38,7 +38,16 @@ class Manageadmin extends ResourceController
 	 */
 	public function show($id = null)
 	{
-		//
+		$data = [
+			'title' => 'Administrator - Detail',
+			'users' => $this->manageadminModel->getUsers($id),
+		];
+
+		if (empty($data['users'])) {
+			return redirect()->to('/manage-admin');
+		}
+
+		return view('user/manageadmin/show', $data);
 	}
 
 	/**
@@ -92,8 +101,13 @@ class Manageadmin extends ResourceController
 	 *
 	 * @return mixed
 	 */
-	public function delete($id = null)
+
+	public function delete($userid = null)
 	{
-		//
+		$this->manageadminModel->delete($userid);
+
+		session()->setFlashdata('message', 'Data deleted successfully');
+
+		return redirect()->to('/manage-admin');
 	}
 }

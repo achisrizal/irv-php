@@ -1,5 +1,5 @@
 //menampilkan map sesuai posisi
-var map = new L.map("map").setView([-7.322, 109.594], 8);
+var map = new L.map("map").setView([-7.522, 109.594], 8);
 
 //map
 var tiles = L.tileLayer(
@@ -22,12 +22,24 @@ slider.oninput = function () {
   showData();
 };
 
-var dataBaru, heat, a;
+var dataBaru,
+  heat,
+  a,
+  b,
+  i,
+  j,
+  gj,
+  row,
+  table,
+  stasiun,
+  nearest,
+  circle,
+  contentPopup;
 
 function showData() {
   (dataBaru = []), (a = []);
 
-  for (var i = 0; i < data.length; i++) {
+  for (i = 0; i < data.length; i++) {
     if (parseFloat(data[i].amplitude) >= output.textContent) {
       dataBaru.push(data[i]);
     }
@@ -38,19 +50,45 @@ function showData() {
     maxZoom: 8,
   }).addTo(map);
 
-  for (var i = 0; i < dataBaru.length; i++) {
-    var contentPopup =
+  for (i = 0; i < dataBaru.length; i++) {
+    gj = L.geoJson(geojson);
+    nearest = leafletKnn(gj).nearest(
+      L.latLng(dataBaru[i].lat, dataBaru[i].lng),
+      2
+    );
+
+    row =
+      "<tr><td>" +
+      dataBaru[i].lat +
+      "</td><td>" +
+      dataBaru[i].lng +
+      "</td><td>" +
+      dataBaru[i].amplitude +
+      "</td><td>" +
+      nearest[0].layer.feature.title +
+      ", " +
+      nearest[1].layer.feature.title +
+      "</td></tr>";
+
+    table = document.getElementById("downloadTable");
+    table.innerHTML += row;
+
+    contentPopup =
       "Amplitude : " +
       dataBaru[i].amplitude +
       " m/s<sup>2</sup><br>Latitude : " +
       dataBaru[i].lat +
       "<br>Longitude : " +
       dataBaru[i].lng +
-      "<br>Kecepatan : - km/h<br><br><b>" +
+      "<br>Kecepatan : - km/h<br>Stasiun Terdekat : <br>" +
+      nearest[0].layer.feature.title +
+      "<br>" +
+      nearest[1].layer.feature.title +
+      "<br><br><b>" +
       dataBaru[i].name +
       "</b>";
 
-    var circle = new L.circleMarker([dataBaru[i].lat, dataBaru[i].lng], {
+    circle = new L.circleMarker([dataBaru[i].lat, dataBaru[i].lng], {
       color: "transparent",
       fillColor: "transparent",
       radius: 10,
@@ -65,41 +103,27 @@ function showData() {
 function clearLayer() {
   for (i = 0; i < a.length; i++) {
     map.removeLayer(a[i]);
+    table.innerHTML = "";
   }
+
   map.removeLayer(heat);
 }
 
-var stasiunTerdekat, c;
-
 map.on("click", function (e) {
-  if (c != null) {
-    for (i = 0; i < c.length; i++) {
-      map.removeLayer(c[i]);
+  if (nearest != null) {
+    for (i = 0; i < nearest.length; i++) {
+      map.removeLayer(nearest[i].layer);
     }
   }
 
-  (stasiunTerdekat = []), (c = []);
+  gj = L.geoJson(geojson);
+  nearest = leafletKnn(gj).nearest(L.latLng(e.latlng), 2);
 
-  for (i = 0; i < stations.length; i++) {
-    if (
-      e.latlng.lat - stations[i].lat <= 0.05 &&
-      e.latlng.lng - stations[i].lng <= 0.05 &&
-      e.latlng.lat - stations[i].lat >= -0.05 &&
-      e.latlng.lng - stations[i].lng >= -0.05
-    ) {
-      stasiunTerdekat.push(stations[i]);
-    }
-  }
-
-  for (i = 0; i < 2; i++) {
-    var contentPopup = stasiunTerdekat[i].name;
-
-    var marker = new L.marker([
-      stasiunTerdekat[i].lat,
-      stasiunTerdekat[i].lng,
-    ]).bindPopup(contentPopup);
-
-    c.push(marker);
-    map.addLayer(c[i]);
+  for (i = 0; i < nearest.length; i++) {
+    console.log(nearest[i]);
+    map.addLayer(nearest[i].layer);
+    nearest[i].layer
+      .bindPopup(nearest[i].layer.feature.properties.popupContent)
+      .openPopup();
   }
 });

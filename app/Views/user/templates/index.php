@@ -51,6 +51,7 @@
             <?= $this->include('user/templates/footer'); ?>
             <!-- End of Footer -->
 
+            <?= $this->include('user/map/modal'); ?>
         </div>
         <!-- End of Content Wrapper -->
 
@@ -71,6 +72,15 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url('js/sb-admin-2.min.js'); ?>"></script>
+
+    <script>
+        function label() {
+            const csv = document.querySelector('#csv');
+            const csvLabel = document.querySelector('.custom-file-label');
+
+            csvLabel.textContent = csv.files[0].name;
+        }
+    </script>
 
     <?= $this->renderSection('JS'); ?>
 </body>

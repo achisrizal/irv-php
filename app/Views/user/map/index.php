@@ -9,65 +9,93 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
-        <div>
-            <a href="data" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm"><i class="fas fa-clipboard-list fa-sm text-white-50"></i> Manage Data</a>
-            <a href="map/new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-upload fa-sm text-white-50"></i> Upload Data</a>
-        </div>
     </div>
+
 
     <!-- Content Row -->
     <div class="row">
-        <div class="col-lg">
-            <!-- Basic Card Example -->
+        <?php if (session()->getFlashdata('message')) : ?>
+            <div class="col-xl-12 col-lg-12">
+                <div class="alert alert-success shadow mb-4" role="alert">
+                    <?= session()->getFlashdata('message'); ?>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <div class="col-xl-3 col-lg-4">
+            <!-- Threshold  -->
             <div class="card shadow mb-4">
-
+                <div class="card-header">
+                    Threshold
+                </div>
                 <div class="card-body">
-                    <?php if (session()->getFlashdata('message')) : ?>
-                        <div class="alert alert-success" role="alert">
-                            <?= session()->getFlashdata('message'); ?>
-                        </div>
-                    <?php endif; ?>
+                    <div class="col">
+                        Min Amplitude : <span id="amplitude"></span> m/s<sup>2</sup>
+                        <input type="range" class="custom-range" min="0" max="160" value="10" id="myRange" name="myRange" />
+                    </div>
+                </div>
+            </div>
 
-                    <form action="">
-                        <div class="row align-items-center">
-                            <div class="col-6">
-                                <label for="datepicker">Date</label>
-                                <div class="input-group">
-                                    <input type="date" class="form-control" id="from" name="from" />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">s/d</span>
+            <!-- Filter -->
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    Filter
+                </div>
+                <div class="card-body">
+
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <form action="" method="post">
+
+                                <div class="form-row">
+                                    <div class="form-group mr-3 col">
+                                        <label for="start">Start Date</label>
+                                        <input type="date" class="form-control" id="start" name="start" value="<?= $start ?>">
                                     </div>
-                                    <input type="date" class="form-control" id="to" name="to" style="z-index:999" autocomplete='off' />
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="submit">Apply</button>
+
+                                    <div class="form-group mr-3 col">
+                                        <label for="end">End Date</label>
+                                        <input type="date" class="form-control" id="end" name="end" value="<?= $end ?>">
+                                    </div>
+
+                                    <div class="form-group mr-3 col">
+                                        <div class="btn-group dropright">
+                                            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownPositions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Positions
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownPositions">
+                                                <?php foreach ($positions as $position) : ?>
+                                                    <span class="dropdown-item"><input class="form-check-input" type="checkbox" value="<?= $position['id']; ?>" id="select[]" name="select[]" <?= in_array($position['id'], $checked) ? 'checked' : '' ?>><?= $position['name']; ?></span>
+                                                <?php endforeach ?>
+                                                <!-- <a class="dropdown-item" href="#">Another action</a>
+                                                <a class="dropdown-item" href="#">Something else here</a> -->
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-4">
-                                Min Amplitude : <span id="amplitude"></span> m/s<sup>2</sup>
-                                <input type="range" class="custom-range" min="0" max="160" value="10" id="myRange" name="myRange" />
-                            </div>
-
-                            <div class=" col">
-                                <?php foreach ($positions as $position) : ?>
-                                    <div class="form-check" name="">
-                                        <input class="form-check-input" type="checkbox" value="<?= $position['id']; ?>" id="select" name="select" checked>
-                                        <label class="form-check-label" for="select">
-                                            <?= $position['name']; ?>
-                                        </label>
-                                    </div>
-                                <?php endforeach ?>
-                            </div>
+                                <button type="submit" name="submit" class="btn btn-primary btn-sm btn-block">Apply</button>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
+            </div>
 
-                <div class="card-img" id="map" style="height: 65vmin;"></div>
+            <!-- <a href="download" type="button" class="btn btn-success btn-sm btn-block" target="_blank">Data Download</a> -->
+            <button type="button" id="button" class="btn btn-success btn-sm btn-block" data-toggle="modal" data-target="#downloadModal">
+                Data Download
+            </button>
+        </div>
 
+        <div class="col-xl-9 col-lg-8">
+            <!-- Map -->
+            <div class="card shadow mb-4">
+                <div class="card-img" id="map" style="height: 91vmin;"></div>
             </div>
         </div>
     </div>
+
+    <?= $this->include('user/map/modal'); ?>
 </div>
 
 <!-- /.container-fluid -->
@@ -90,11 +118,26 @@
 <!-- Leaflet Heat JS -->
 <script src="<?= base_url('js/leaflet-heat.js'); ?>"></script>
 
+<!-- Leaflet-knn JS -->
+<script src="<?= base_url('js/leaflet-knn.min.js'); ?>"></script>
+
 <script>
     var stations = <?= $stations; ?>;
+    var geojson = <?= $geojson; ?>;
     var data = <?= $data; ?>;
 </script>
 
 <script src="<?= base_url('js/map.js'); ?>"></script>
+
+<script>
+    function printContent() {
+        var restorepage = document.body.innerHTML;
+        var printcontent = document.getElementById("print").innerHTML;
+
+        document.body.innerHTML = printcontent;
+        window.print();
+        document.body.innerHTML = restorepage;
+    }
+</script>
 
 <?= $this->endSection(); ?>

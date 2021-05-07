@@ -34,21 +34,19 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/home', 'Home::index');
+$routes->get('/measurement', 'Measurement::index');
+$routes->get('/profile', 'Profile::index');
 
 $routes->get('/', 'Superadmin::index', ['filter' => 'role:superadmin']);
 $routes->get('/index', 'Superadmin::index', ['filter' => 'role:superadmin']);
 
-$routes->get('/device', 'Device::index');
-
-// $routes->get('/manage-admin', 'ManageAdmin', ['filter' => 'role:superadmin']);
-// $routes->delete('/manage-admin/delete/(:num)', 'ManageAdmin::delete/$1', ['filter' => 'role:superadmin']);
-
 $routes->resource('manage-admin', ['controller' => 'Manageadmin', 'filter' => 'role:superadmin']);
 $routes->resource('stations', ['controller' => 'Stations']);
-$routes->resource('map', ['controller' => 'Map']);
+$routes->resource('map', ['except' => 'create']);
 $routes->resource('data', ['controller' => 'Data']);
 $routes->resource('positions', ['controller' => 'Positions', 'filter' => 'role:superadmin']);
 
+$routes->post('/map/new', 'Map::create');
 
 /*
  * --------------------------------------------------------------------

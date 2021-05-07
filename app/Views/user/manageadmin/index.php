@@ -14,6 +14,11 @@
         <div class="col-lg">
             <div class="card shadow mb-4">
                 <div class="card-body">
+                    <?php if (session()->getFlashdata('message')) : ?>
+                        <div class="alert alert-success" role="alert">
+                            <?= session()->getFlashdata('message'); ?>
+                        </div>
+                    <?php endif; ?>
                     <div class="table-responsive">
                         <table class="table" id="dataTable" width="100%" cellspacing="0">
                             <thead class="thead-light">
@@ -34,7 +39,7 @@
                                         <td class="align-middle"><?= $user['email']; ?></td>
                                         <td class="align-middle"><?= $user['description']; ?></td>
                                         <td class="align-middle">
-                                            <a href="<?= base_url('manage/admin/manage-users/' . $user['userid']); ?>" class="btn btn-info">Detail</a>
+                                            <a href="manage-admin/<?= $user['userid']; ?>" class="btn btn-info">Detail</a>
                                             <a href="<?= base_url('manage/admin/manage-users/' . $user['userid']); ?>" class="btn btn-warning">Edit</a>
                                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
                                                 Delete
@@ -64,12 +69,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel</button>
-                    <form action="<?= base_url('manage-admin/delete/' . $user['userid']); ?>" method="post" class="d-inline">
+                    <form action="<?= base_url('manage-admin/' . $user['userid']); ?>" method="post" class="d-inline">
                         <?= csrf_field(); ?>
-                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_method" value="delete">
                         <button type="submit" class="btn btn-danger"> Delete</button>
                     </form>
-                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                 </div>
             </div>
         </div>

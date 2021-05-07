@@ -18,4 +18,13 @@ class PositionsModel extends Model
 
         return $this->where(['id' => $id])->first();
     }
+
+    public function getPositionsId()
+    {
+        $builder = $this->table('positons');
+        $builder->select('id');
+        $query = $builder->get()->getResultArray();
+
+        return $query;
+    }
 }

@@ -44,11 +44,11 @@
         </li>
     <?php endif; ?>
 
-    <!-- Nav Item - Device -->
-    <li class="nav-item <?= uri_string() == 'device' ? 'active' : '' ?>">
-        <a class="nav-link" href="<?= base_url('device'); ?>">
+    <!-- Nav Item - Measurement -->
+    <li class="nav-item <?= uri_string() == 'Measurement' ? 'active' : '' ?>">
+        <a class="nav-link" href="<?= base_url('Measurement'); ?>">
             <i class="fas fa-fw fa-pallet"></i>
-            <span>Device</span></a>
+            <span>Measurement</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
@@ -58,14 +58,17 @@
             <span>Map</span></a>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Nav Item - Tables -->
-    <li class="nav-item <?= uri_string() == 'map' ? 'active' : '' ?>">
-        <a class="nav-link" href="<?= base_url('map'); ?>">
-            <i class="fas fa-fw fa-list"></i>
-            <span>Data Raw</span></a>
+    <li class="nav-item <?= uri_string() == 'data' ? 'active' : '' ?>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataManagement" aria-expanded="true" aria-controls="collapseDataManagement">
+            <i class="fas fa-fw fa-clipboard-list"></i>
+            <span>Data Management</span>
+        </a>
+        <div id="collapseDataManagement" class="collapse" aria-labelledby="headingDataManagement" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a href="<?= base_url('data'); ?>" class="collapse-item <?= uri_string() == 'data' ? 'active' : '' ?>"> Manage Data</a>
+                <a href="" class="collapse-item" data-toggle="modal" data-target="#uploadDataModal">Upload Data</a>
+            </div>
+        </div>
     </li>
 
     <!-- Divider -->
@@ -84,8 +87,25 @@
                 <span>Administrator</span></a>
         </li>
 
-        <li class="nav-item <?= uri_string() == 'user' ? 'active' : '' ?>">
-            <a class="nav-link" href="<?= base_url('user'); ?>">
+        <li class="nav-item <?= uri_string() == 'manage-admin' ? 'active' : '' ?>">
+            <a class="nav-link" href="<?= base_url('manage-admin'); ?>">
+                <i class="fas fa-fw fa-users"></i>
+                <span>User</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+    <?php endif; ?>
+
+    <?php if (in_groups('admin')) : ?>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            User
+        </div>
+
+        <!-- Nav Item - User -->
+        <li class="nav-item <?= uri_string() == 'manage-admin' ? 'active' : '' ?>">
+            <a class="nav-link" href="<?= base_url('manage-admin'); ?>">
                 <i class="fas fa-fw fa-users"></i>
                 <span>User</span></a>
         </li>

@@ -26,6 +26,7 @@ class Data extends ResourceController
 		$data = [
 			'title' => 'Data on Map',
 			'dates' => $this->datesModel->countDates(),
+			'validation' => \Config\Services::validation(),
 		];
 
 		return view('user/data/index', $data);

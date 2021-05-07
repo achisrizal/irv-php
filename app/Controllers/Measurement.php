@@ -2,15 +2,15 @@
 
 namespace App\Controllers;
 
-class Superadmin extends BaseController
+class Measurement extends BaseController
 {
 	public function index()
 	{
 		$data = [
-			'title' => 'Dashboard',
+			'title' => 'Measurement',
 			'validation' => \Config\Services::validation(),
 		];
 
-		return view('user/dashboard', $data);
+		return view('user/measurement', $data);
 	}
 }

@@ -31,4 +31,13 @@ class DatesModel extends Model
 
 		return $query;
 	}
+
+	public function getDateFirst()
+	{
+		$builder = $this->table('dates');
+		$builder->select('date');
+		$query = $builder->get()->getFirstRow('array');
+
+		return $query;
+	}
 }
