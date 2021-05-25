@@ -4,43 +4,32 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Dates extends Migration
+class AdminUser extends Migration
 {
 	public function up()
 	{
 		$this->forge->addField([
-			'id' => [
+			'admin_user_id' => [
 				'type' => 'int',
 				'constraint' => 11,
 				'unsigned' => true,
-				'auto_increment' => true,
 			],
 			'user_id' => [
 				'type' => 'int',
 				'constraint' => 11,
 				'unsigned' => true,
 			],
-			'date' => [
-				'type' => 'date',
-			],
-			'created_at' => [
-				'type' => 'datetime',
-				'null' => true,
-			],
-			'updated_at' => [
-				'type' => 'datetime',
-				'null' => true,
-			],
 		]);
 
 		$this->forge->addKey('id', true);
-		$this->forge->addKey(['user_id']);
+		$this->forge->addKey(['admin_user_id', 'user_id', 'position_id']);
+		$this->forge->addForeignKey('admin_user_id', 'users', 'id', false, 'CASCADE');
 		$this->forge->addForeignKey('user_id', 'users', 'id', false, 'CASCADE');
-		$this->forge->createTable('dates', true);
+		$this->forge->createTable('admin_user', true);
 	}
 
 	public function down()
 	{
-		$this->forge->dropTable('dates', true);
+		$this->forge->dropTable('admin_user', true);
 	}
 }

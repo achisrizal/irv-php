@@ -8,10 +8,11 @@ use \App\Models\DataModel;
 use \App\Models\PositionsModel;
 use \App\Models\DatesModel;
 use CodeIgniter\I18n\Time;
+use \App\Models\AdminuserModel;
 
 class Map extends ResourceController
 {
-	protected $stationsModel, $dataModel, $positionsModel, $datesModel;
+	protected $stationsModel, $dataModel, $positionsModel, $datesModel, $adminuserModel;
 
 	public function __construct()
 	{
@@ -19,6 +20,7 @@ class Map extends ResourceController
 		$this->dataModel = new DataModel();
 		$this->positionsModel = new PositionsModel();
 		$this->datesModel = new DatesModel();
+		$this->adminuserModel = new AdminuserModel();
 	}
 
 	/**
@@ -28,12 +30,18 @@ class Map extends ResourceController
 	 */
 	public function index()
 	{
+		if (in_groups('user')) {
+			$user_id = $this->adminuserModel->getAdmin(user_id())['admin_user_id'];
+		} else {
+			$user_id = user_id();
+		}
+
 		$stations = $this->stationsModel->getStations();
 		$start = $this->request->getVar('start');
 		$positions = $this->positionsModel->getPositions();
 		$positionsId = $this->positionsModel->getPositionsId();
-		$first = $this->datesModel->getDateFirst();
-
+		$first = $this->datesModel->getDateFirst($user_id);
+		$today = Time::createFromDate()->toDateString();
 		$checked = [];
 
 		if (isset($_POST['select'])) {
@@ -44,18 +52,24 @@ class Map extends ResourceController
 			}
 		}
 
-		if ($this->request->getVar('start') == null) {
-			$start = $first['date'];
+		if ($first == null) {
+			$result = null;
+			$end = $today;
 		} else {
-			$start = $this->request->getVar('start');
-		}
+			if ($this->request->getVar('start') == null) {
+				$start = $first->date;
+			} else {
+				$start = $this->request->getVar('start');
+			}
 
-		if ($this->request->getVar('end') == null) {
-			$end = Time::createFromDate()->toDateString();
-		} else {
-			$end = $this->request->getVar('end');
+			if ($this->request->getVar('end') == null) {
+				$end = $today;
+			} else {
+				$end = $this->request->getVar('end');
+			}
+
+			$result = $this->dataModel->getFilter($user_id, $start, $end, $checked);
 		}
-		$result = $this->dataModel->getFilter($start, $end, $checked);
 
 		$features = [];
 
@@ -117,8 +131,6 @@ class Map extends ResourceController
 	public function new()
 	{
 		$data = [
-			'positions' => $this->positionsModel->getPositions(),
-			'dates' => $this->datesModel->getDates(),
 			'title' => 'Map - Upload',
 			'validation' => \Config\Services::validation(),
 		];
@@ -136,7 +148,7 @@ class Map extends ResourceController
 		if (!$this->validate([
 			'csv' => 'uploaded[csv]',
 		])) {
-			return redirect()->to('/map')->withInput();
+			return redirect()->back()->withInput();
 		}
 
 		$filename = $this->request->getFile('csv');
@@ -149,17 +161,18 @@ class Map extends ResourceController
 		if ($this->validate([
 			$date => 'is_unique[dates.date]',
 		])) {
-			$date_id = $this->datesModel->searchDates($date);
+			$date_id = $this->datesModel->searchDate($date);
 		}
 
 		if ($date_id == []) {
 			$data = [
+				'user_id' => $this->request->getVar('user_id'),
 				'date' => $date,
 			];
 
 			$this->datesModel->save($data);
 
-			$date_id = $this->datesModel->searchDates($date);
+			$date_id = $this->datesModel->searchDate($date);
 		}
 
 		$builder = $this->dataModel->builder();

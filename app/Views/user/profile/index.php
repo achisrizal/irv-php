@@ -21,9 +21,9 @@
                                     <h5><?= user()->username; ?></h5>
                                 </li>
                                 <li class="list-group-item"><?= user()->email; ?></li>
-                                <!-- <li class="list-group-item">
-                                    <a href="#" class="btn btn-warning">Edit Password</a>
-                                </li> -->
+                                <li class="list-group-item">
+                                    <a href="#" class="btn btn-warning">Change Password</a>
+                                </li>
                             </ul>
                         </div>
                     </div>

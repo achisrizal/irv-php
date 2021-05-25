@@ -9,6 +9,7 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
+        <button class="btn btn-primary btn-sm" onclick="getLoc(-7.522, 109.594)"><i class="fas fa-map-marked-alt"></i> Recenter Map</button>
     </div>
 
 
@@ -90,7 +91,8 @@
         <div class="col-xl-9 col-lg-8">
             <!-- Map -->
             <div class="card shadow mb-4">
-                <div class="card-img" id="map" style="height: 91vmin;"></div>
+                <div class="card-img" id="map" style="height: 89vmin;">
+                </div>
             </div>
         </div>
     </div>

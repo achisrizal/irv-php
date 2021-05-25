@@ -51,7 +51,6 @@
             <?= $this->include('user/templates/footer'); ?>
             <!-- End of Footer -->
 
-            <?= $this->include('user/map/modal'); ?>
         </div>
         <!-- End of Content Wrapper -->
 

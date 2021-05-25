@@ -7,7 +7,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
-        <a href="manage-admin/new" class="btn btn-primary btn-sm">New Data</a>
+        <a href="user/new" class="btn btn-primary btn-sm"><i class="fas fa-sign-in-alt"></i> New Data</a>
     </div>
 
     <div class="row">
@@ -39,9 +39,9 @@
                                         <td class="align-middle"><?= $user['email']; ?></td>
                                         <td class="align-middle"><?= $user['description']; ?></td>
                                         <td class="align-middle">
-                                            <a href="manage-admin/<?= $user['userid']; ?>" class="btn btn-info">Detail</a>
-                                            <a href="<?= base_url('manage/admin/manage-users/' . $user['userid']); ?>" class="btn btn-warning">Edit</a>
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                                            <a href="user/<?= $user['userid']; ?>" class="btn btn-info">Detail</a>
+                                            <a href="user/<?= $user['userid']; ?>/edit" class="btn btn-warning">Edit</a>
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $user['userid']; ?>">
                                                 Delete
                                             </button>
                                     </tr>
@@ -54,31 +54,32 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Data</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure want to delete?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel</button>
-                    <form action="<?= base_url('manage-admin/' . $user['userid']); ?>" method="post" class="d-inline">
-                        <?= csrf_field(); ?>
-                        <input type="hidden" name="_method" value="delete">
-                        <button type="submit" class="btn btn-danger"> Delete</button>
-                    </form>
+    <!-- Modal Delete -->
+    <?php foreach ($users as $user) : ?>
+        <div class="modal fade" id="deleteModal<?= $user['userid']; ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Delete Data</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure want to delete <?= $user['username']; ?> ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel</button>
+                        <form action="<?= base_url('user/' . $user['userid']); ?>" method="post" class="d-inline">
+                            <?= csrf_field(); ?>
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit" class="btn btn-danger"> Delete</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+    <?php endforeach; ?>
 </div>
 
 <?= $this->endSection(); ?>

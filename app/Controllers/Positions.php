@@ -25,7 +25,7 @@ class Positions extends ResourceController
 		$positions = $this->positionsModel->getPositions();
 
 		$data = [
-			'title' => 'Positions',
+			'title' => 'Sensor Positions',
 			'positions' => $positions,
 			'validation' => \Config\Services::validation(),
 		];

@@ -25,7 +25,7 @@
                                 <li class="list-group-item">
                                     <div class="row align-items-center">
                                         <div class="col-auto mr-auto">
-                                            <a href="/manage-admin" class="btn btn-secondary">Back</a>
+                                            <a href="/user" class="btn btn-secondary">Back</a>
                                         </div>
                                         <div class="col-auto">
                                             <button type="submit" class="btn btn-warning">Edit</button>

@@ -127,3 +127,7 @@ map.on("click", function (e) {
       .openPopup();
   }
 });
+
+function getLoc(lat, lng) {
+  map.setView(new L.LatLng(lat, lng), 8);
+}

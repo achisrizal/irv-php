@@ -40,13 +40,13 @@ $routes->get('/profile', 'Profile::index');
 $routes->get('/', 'Superadmin::index', ['filter' => 'role:superadmin']);
 $routes->get('/index', 'Superadmin::index', ['filter' => 'role:superadmin']);
 
-$routes->resource('manage-admin', ['controller' => 'Manageadmin', 'filter' => 'role:superadmin']);
+$routes->resource('user', ['controller' => 'Users']);
 $routes->resource('stations', ['controller' => 'Stations']);
-$routes->resource('map', ['except' => 'create']);
+$routes->resource('map', ['controller' => 'Map']);
 $routes->resource('data', ['controller' => 'Data']);
 $routes->resource('positions', ['controller' => 'Positions', 'filter' => 'role:superadmin']);
 
-$routes->post('/map/new', 'Map::create');
+// $routes->post('/map/new', 'Map::create');
 
 /*
  * --------------------------------------------------------------------

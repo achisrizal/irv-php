@@ -138,7 +138,6 @@ class Stations extends ResourceController
 			'lat' => 'required',
 			'lng' => 'required',
 		])) {
-
 			return redirect()->back()->withInput();
 		}
 

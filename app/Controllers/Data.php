@@ -4,17 +4,19 @@ namespace App\Controllers;
 
 use \App\Models\DataModel;
 use \App\Models\DatesModel;
+use \App\Models\AdminuserModel;
 
 use CodeIgniter\RESTful\ResourceController;
 
 class Data extends ResourceController
 {
-	protected $dataModel, $datesModel;
+	protected $dataModel, $datesModel, $adminuserModel;
 
 	public function __construct()
 	{
 		$this->dataModel = new DataModel();
 		$this->datesModel = new DatesModel();
+		$this->adminuserModel = new AdminuserModel();
 	}
 	/**
 	 * Return an array of resource objects, themselves in array format
@@ -23,9 +25,15 @@ class Data extends ResourceController
 	 */
 	public function index()
 	{
+		if (in_groups('user')) {
+			$user_id = $this->adminuserModel->getAdmin(user_id())['admin_user_id'];
+		} else {
+			$user_id = user_id();
+		}
+
 		$data = [
 			'title' => 'Data on Map',
-			'dates' => $this->datesModel->countDates(),
+			'dates' => $this->datesModel->countDates($user_id),
 			'validation' => \Config\Services::validation(),
 		];
 
@@ -49,7 +57,12 @@ class Data extends ResourceController
 	 */
 	public function new()
 	{
-		//
+		$data = [
+			'title' => 'Upload Data',
+			'validation' => \Config\Services::validation(),
+		];
+
+		return view('user/data/new', $data);
 	}
 
 	/**
@@ -94,5 +107,15 @@ class Data extends ResourceController
 		session()->setFlashdata('message', 'Data deleted successfully');
 
 		return redirect()->to('/data');
+	}
+
+	public function upload()
+	{
+		$data = [
+			'title' => 'Upload Data',
+			'validation' => \Config\Services::validation(),
+		];
+
+		return view('user/data/new', $data);
 	}
 }

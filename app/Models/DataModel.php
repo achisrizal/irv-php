@@ -22,26 +22,29 @@ class DataModel extends Model
         return $query;
     }
 
-    public function getFilter($start, $end, $checked)
+    public function getFilter($user_id, $start, $end, $checked)
     {
-        $builder = $this->getData();
         $builder = $this->table('data');
         $builder->select('data.id as dataid, lat, lng, amplitude, date, name')
             ->join('dates', 'dates.id = data.date_id')
             ->join('positions', 'positions.id = data.position_id')
-            ->where('user_id', user_id());
+            ->where('data.user_id', $user_id)
+            ->where('dates.user_id', $user_id)
+            ->where('date >=', $start)
+            ->where('date <=', $end)
+            ->wherein('position_id', $checked);
 
-        $builder->where('date >=', $start);
+
         // if ($_POST['start']) {
         // }
 
-        $builder->where('date <=', $end);
+        // $builder->where('date <=', $end);
         // if ($_POST['end']) {
         // }
 
-        if ($checked != null) {
-            $builder->wherein('position_id', $checked);
-        }
+        // $builder->wherein('position_id', $checked);
+        // if ($checked != null) {
+        // }
 
         $query = $builder->get()->getResultArray();
 

@@ -30,7 +30,7 @@
                     <thead class="thead-light">
                         <tr>
                             <th>#</th>
-                            <th>Position</th>
+                            <th>Sensor Position</th>
                             <th>Action</th>
                         </tr>
                     </thead>
