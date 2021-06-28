@@ -12,7 +12,7 @@ use \Myth\Auth\Config\Auth;
 
 class Users extends ResourceController
 {
-	protected $usersModel, $rolesModel, $adminuserModel, $userModel, $config;
+	protected $usersModel, $rolesModel, $adminuserModel, $userModel, $config, $authorize;
 
 	public function __construct()
 	{
@@ -21,6 +21,7 @@ class Users extends ResourceController
 		$this->adminuserModel = new AdminuserModel();
 		$this->userModel = new UserModel();
 		$this->config = new Auth();
+		$this->authorize = service('authorization');
 	}
 	/**
 	 * Return an array of resource objects, themselves in array format
@@ -99,16 +100,15 @@ class Users extends ResourceController
 
 		$this->userModel->withGroup($this->request->getVar('role'))->save($user);
 
-		if ($this->request->getVar('role') == 'user') {
-			$user_id = $this->usersModel->searchUser($this->request->getVar('username'));
+		$user_id = $this->usersModel->searchUser($this->request->getVar('username'));
 
-			$data = [
-				'admin_user_id' => user_id(),
-				'user_id' => $user_id->id,
-			];
+		$data = [
+			'admin' => user()->username,
+			'user_id' => $user_id->id,
+		];
 
-			$this->adminuserModel->save($data);
-		}
+		// dd($data);
+		$this->adminuserModel->save($data);
 
 		session()->setFlashdata('message', 'Data created successfully');
 
@@ -140,8 +140,8 @@ class Users extends ResourceController
 	public function update($id = null)
 	{
 		if (!$this->validate([
-			'username' => "required|alpha_numeric_space|min_length[3]|is_unique[users.username,username,{username}]",
-			'email' => "required|valid_email|is_unique[users.email,email,{email}]",
+			'username' => "required|alpha_numeric_space|min_length[3]|is_unique[users.username,id,$id]",
+			'email' => "required|valid_email|is_unique[users.email,id,$id]",
 		])) {
 			return redirect()->back()->withInput();
 		}
@@ -151,24 +151,13 @@ class Users extends ResourceController
 			'email' => $this->request->getVar('email'),
 		];
 
-		// $allowedPostFields = array_merge($this->config->validFields, $this->config->personalFields);
-		// $user = new User($this->request->getPost($allowedPostFields));
-
-		// $this->userModel->update($id, $user);
-
 		$this->usersModel->update($id, $data);
 
+		if ($this->adminuserModel)
+			$user_id = $this->usersModel->searchUser($this->request->getVar('username'))->id;
 
-		// if ($this->request->getVar('role') == 'user') {
-		// 	$user_id = $this->usersModel->searchUser($this->request->getVar('username'));
-
-		// 	$data = [
-		// 		'admin_user_id' => user_id(),
-		// 		'user_id' => $user_id->id,
-		// 	];
-
-		// 	$this->adminuserModel->save($data);
-		// }
+		$this->authorize->removeUserFromGroup($user_id, $this->request->getVar('role_old'));
+		$this->authorize->addUserToGroup($user_id, $this->request->getVar('role'));
 
 		session()->setFlashdata('message', 'Data updated successfully');
 

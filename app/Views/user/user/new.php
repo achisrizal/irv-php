@@ -19,7 +19,7 @@
                             <label for="role">Role</label>
                             <select name="role" class="form-control">
                                 <?php foreach ($roles as $role) : ?>
-                                    <option value="<?= $role['name']; ?>"><?= $role['description']; ?></option>
+                                    <option value="<?= $role['name']; ?>" <?= $role['name'] == old('role') ? 'selected' : ''; ?>><?= $role['description']; ?></option>
                                 <?php endforeach ?>
                             </select>
                         </div>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <a href="/manage-admin" class="btn btn-secondary">Back</a>
+                            <a href="/user" class="btn btn-secondary">Back</a>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>

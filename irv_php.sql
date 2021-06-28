@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 25 Bulan Mei 2021 pada 10.42
+-- Waktu pembuatan: 23 Jun 2021 pada 18.43
 -- Versi server: 10.4.17-MariaDB
 -- Versi PHP: 7.4.14
 
@@ -28,9 +28,17 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admin_user` (
-  `admin_user_id` int(11) UNSIGNED NOT NULL,
+  `admin` varchar(30) DEFAULT NULL,
   `user_id` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data untuk tabel `admin_user`
+--
+
+INSERT INTO `admin_user` (`admin`, `user_id`) VALUES
+('superadmin', 2),
+('superadmin', 3);
 
 -- --------------------------------------------------------
 
@@ -96,8 +104,7 @@ CREATE TABLE `auth_groups_users` (
 INSERT INTO `auth_groups_users` (`group_id`, `user_id`) VALUES
 (1, 1),
 (2, 2),
-(2, 3),
-(2, 7);
+(2, 3);
 
 -- --------------------------------------------------------
 
@@ -119,9 +126,9 @@ CREATE TABLE `auth_logins` (
 --
 
 INSERT INTO `auth_logins` (`id`, `ip_address`, `email`, `user_id`, `date`, `success`) VALUES
-(1, '::1', 'superadmin@mail.com', 1, '2021-05-13 08:54:46', 1),
-(2, '::1', 'superadmin@mail.com', 1, '2021-05-15 23:17:38', 1),
-(3, '::1', 'superadmin@mail.com', 1, '2021-05-21 09:17:48', 1);
+(1, '::1', 'admin@mail.com', 2, '2021-06-23 11:02:31', 1),
+(2, '::1', 'superadmin@mail.com', 1, '2021-06-23 11:08:35', 1),
+(3, '::1', 'admin@mail.com', 2, '2021-06-23 11:09:09', 1);
 
 -- --------------------------------------------------------
 
@@ -193,18 +200,6 @@ CREATE TABLE `data` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data untuk tabel `data`
---
-
-INSERT INTO `data` (`id`, `user_id`, `date_id`, `position_id`, `lat`, `lng`, `amplitude`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, -7.8761, 110.1060, 103.74, '2021-05-07 11:06:45', '2021-05-07 11:06:45'),
-(2, 1, 1, 1, -7.8621, 110.1494, 106.22, '2021-05-07 11:06:45', '2021-05-07 11:06:45'),
-(3, 1, 1, 1, -7.8527, 110.2106, 100.41, '2021-05-07 11:06:45', '2021-05-07 11:06:45'),
-(4, 1, 1, 1, -7.8300, 110.2210, 123.76, '2021-05-07 11:06:45', '2021-05-07 11:06:45'),
-(5, 1, 1, 1, -7.8035, 110.2558, 116.72, '2021-05-07 11:06:45', '2021-05-07 11:06:45'),
-(6, 1, 1, 1, -7.7942, 110.3065, 141.60, '2021-05-07 11:06:45', '2021-05-07 11:06:45');
-
 -- --------------------------------------------------------
 
 --
@@ -218,13 +213,6 @@ CREATE TABLE `dates` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data untuk tabel `dates`
---
-
-INSERT INTO `dates` (`id`, `user_id`, `date`, `created_at`, `updated_at`) VALUES
-(1, 1, '2021-05-01', '2021-05-07 11:06:45', '2021-05-07 11:06:45');
 
 -- --------------------------------------------------------
 
@@ -251,8 +239,8 @@ INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`
 (5, '2021-02-17-034933', 'App\\Database\\Migrations\\Stations', 'default', 'App', 1615961688, 2),
 (7, '2021-02-18-051518', 'App\\Database\\Migrations\\Positions', 'default', 'App', 1615963321, 3),
 (14, '2021-03-18-060526', 'App\\Database\\Migrations\\Dates', 'default', 'App', 1620401392, 4),
-(15, '2021-02-18-051911', 'App\\Database\\Migrations\\Data', 'default', 'App', 1620401420, 5),
-(16, '2021-05-10-083926', 'App\\Database\\Migrations\\AdminUser', 'default', 'App', 1620638110, 6);
+(22, '2021-02-18-051911', 'App\\Database\\Migrations\\Data', 'default', 'App', 1624465816, 5),
+(25, '2021-05-10-083926', 'App\\Database\\Migrations\\AdminUser', 'default', 'App', 1624466542, 6);
 
 -- --------------------------------------------------------
 
@@ -784,10 +772,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `user_image`, `password_hash`, `reset_hash`, `reset_at`, `reset_expires`, `activate_hash`, `status`, `status_message`, `active`, `force_pass_reset`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'superadmin@mail.com', 'superadmin', NULL, '$2y$10$MnorE7Q.muWU5GxgdVGWnOKlVxijMlj9Sbehyy6oB3P8QMOeRydoi', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2021-03-17 01:09:07', '2021-03-17 01:09:07', NULL),
-(2, 'admin@mail.com', 'admin', NULL, '$2y$10$nehBaxwDjZmVZZoNdxmBruz7poqAW96Adg0Gpb.J9hlps6WZ4I/Vm', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2021-03-17 01:09:26', '2021-03-17 01:09:26', NULL),
-(3, 'kai@mail.com', 'KAI', NULL, '$2y$10$FYWm0DayaGQGoclks/XSKeHD.9dn/aV.dDDzkIdPk6K21U4Sl7cMe', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2021-03-17 01:09:51', '2021-03-17 01:09:51', NULL),
-(7, 'test@mail.com', 'tes', NULL, '$2y$10$qL79g4NM493z/Fr50YoIK.whuhmetBgnabJX7THBWD4YyvSjcnWVK', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2021-05-16 01:54:56', '2021-05-16 01:54:56', NULL);
+(1, 'superadmin@mail.com', 'superadmin', NULL, '$2y$10$MnorE7Q.muWU5GxgdVGWnOKlVxijMlj9Sbehyy6oB3P8QMOeRydoi', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL, NULL),
+(2, 'admin@mail.com', 'admin', NULL, '$2y$10$PWRmpLL3Sie6DepQEro8b.I/diABGd5Q80p8Dpvjm30WinEkgGitG', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2021-06-23 10:53:51', '2021-06-23 10:53:51', NULL),
+(3, 'kai@mail.com', 'KAI', NULL, '$2y$10$YMGrObphdKOsPL1a/G7GCec4dKn7z7DUE4WaKusxGR6Z3djsg.tLS', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2021-06-23 11:08:56', '2021-06-23 11:08:56', NULL);
 
 --
 -- Indexes for dumped tables
@@ -798,7 +785,7 @@ INSERT INTO `users` (`id`, `email`, `username`, `user_image`, `password_hash`, `
 --
 ALTER TABLE `admin_user`
   ADD KEY `admin_user_user_id_foreign` (`user_id`),
-  ADD KEY `admin_user_id_user_id` (`admin_user_id`,`user_id`);
+  ADD KEY `admin_user_id` (`admin`,`user_id`);
 
 --
 -- Indeks untuk tabel `auth_activation_attempts`
@@ -947,19 +934,19 @@ ALTER TABLE `auth_tokens`
 -- AUTO_INCREMENT untuk tabel `data`
 --
 ALTER TABLE `data`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `dates`
 --
 ALTER TABLE `dates`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT untuk tabel `positions`
@@ -977,7 +964,7 @@ ALTER TABLE `stations`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -987,7 +974,7 @@ ALTER TABLE `users`
 -- Ketidakleluasaan untuk tabel `admin_user`
 --
 ALTER TABLE `admin_user`
-  ADD CONSTRAINT `admin_user_admin_user_id_foreign` FOREIGN KEY (`admin_user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `admin_user_admin_foreign` FOREIGN KEY (`admin`) REFERENCES `users` (`username`) ON DELETE CASCADE,
   ADD CONSTRAINT `admin_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --

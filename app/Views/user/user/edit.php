@@ -12,14 +12,19 @@
             <div class="card shadow mb-4 col-6">
                 <div class="card-body">
 
-                    <form action="/users/update" method="post">
+                    <form action="/user/<?= $users['userid']; ?>" method="post">
+                        <input type="hidden" name="_method" value="put" />
                         <?= csrf_field() ?>
+
+                        <?php foreach ($roles as $role) : ?>
+                            <input type='hidden' name='role_old' value="<?= $users['role']; ?>" />
+                        <?php endforeach ?>
 
                         <div class="form-group">
                             <label for="role">Role</label>
                             <select name="role" class="form-control">
                                 <?php foreach ($roles as $role) : ?>
-                                    <option value="<?= $role['name']; ?>" <?= $role['description'] == $users['description'] ? 'selected' : '' ?>><?= $role['description']; ?></option>
+                                    <option value="<?= $role['name']; ?>" <?= $role['name'] == $users['role'] ? 'selected' : '' ?>><?= $role['description']; ?></option>
                                 <?php endforeach ?>
                             </select>
                         </div>

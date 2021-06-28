@@ -26,7 +26,13 @@
                                     <td><?= $stations['lng']; ?></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"><a href="/stations">Back</a></td>
+
+                                    <?php if (in_groups('superadmin')) : ?>
+                                        <td><a href="/stations" class="btn btn-secondary">Back</a></td>
+                                        <td class="text-right"><a href="<?= $stations['id']; ?>/edit" class="btn btn-primary">Edit</a></td>
+                                    <?php else : ?>
+                                        <td colspan="2"><a href="/stations" class="btn btn-secondary">Back</a></td>
+                                    <?php endif; ?>
                                 </tr>
                             </tbody>
                         </table>

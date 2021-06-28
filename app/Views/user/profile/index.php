@@ -16,13 +16,19 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
+                            <?php if (session()->getFlashdata('message')) : ?>
+                                <div class="alert alert-success" role="alert">
+                                    <?= session()->getFlashdata('message'); ?>
+                                </div>
+                            <?php endif; ?>
+
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                     <h5><?= user()->username; ?></h5>
                                 </li>
                                 <li class="list-group-item"><?= user()->email; ?></li>
                                 <li class="list-group-item">
-                                    <a href="#" class="btn btn-warning">Change Password</a>
+                                    <a href="profile/password" class="btn btn-warning">Change Password</a>
                                 </li>
                             </ul>
                         </div>

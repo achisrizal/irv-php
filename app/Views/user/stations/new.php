@@ -3,7 +3,6 @@
 <?= $this->section('content'); ?>
 
 <div class="container-fluid">
-    0
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 

@@ -134,7 +134,7 @@ class Stations extends ResourceController
 	public function update($id = null)
 	{
 		if (!$this->validate([
-			'name' => "required|is_unique[stations.name,name,{name}]",
+			'name' => "required|is_unique[stations.name,id,$id]",
 			'lat' => 'required',
 			'lng' => 'required',
 		])) {

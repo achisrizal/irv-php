@@ -8,14 +8,14 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
-        <div>
-            <?php if (in_groups('superadmin')) : ?>
+        <?php if (in_groups('superadmin')) : ?>
+            <div>
                 <button type="button" class="btn btn-primary btn-sm shadow-sm" data-toggle="modal" data-target="#uploadModal">
                     Upload Data
                 </button>
-            <?php endif; ?>
-            <a href="stations/new" class="btn btn-primary btn-sm shadow-sm">New Data</a>
-        </div>
+                <a href="stations/new" class="btn btn-primary btn-sm shadow-sm">New Data</a>
+            </div>
+        <?php endif; ?>
     </div>
 
     <div class="card shadow mb-4">
@@ -27,7 +27,7 @@
             <?php endif; ?>
 
             <div class="table-responsive">
-                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
                     <thead class="thead-light">
                         <tr>
                             <th>#</th>
@@ -47,10 +47,12 @@
                                 <td class="align-middle"><?= $station['lng']; ?></td>
                                 <td class="align-middle">
                                     <a href="stations/<?= $station['id']; ?>" class="btn btn-info">Detail</a>
-                                    <a href="stations/<?= $station['id']; ?>/edit" class="btn btn-warning">Edit</a>
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $station['id']; ?>">
-                                        Delete
-                                    </button>
+                                    <?php if (in_groups('superadmin')) : ?>
+                                        <a href="stations/<?= $station['id']; ?>/edit" class="btn btn-warning">Edit</a>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $station['id']; ?>">
+                                            Delete
+                                        </button>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

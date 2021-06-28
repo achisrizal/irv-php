@@ -33,18 +33,20 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/home', 'Home::index');
-$routes->get('/measurement', 'Measurement::index');
-$routes->get('/profile', 'Profile::index');
-
 $routes->get('/', 'Superadmin::index', ['filter' => 'role:superadmin']);
 $routes->get('/index', 'Superadmin::index', ['filter' => 'role:superadmin']);
 
-$routes->resource('user', ['controller' => 'Users']);
-$routes->resource('stations', ['controller' => 'Stations']);
-$routes->resource('map', ['controller' => 'Map']);
-$routes->resource('data', ['controller' => 'Data']);
-$routes->resource('positions', ['controller' => 'Positions', 'filter' => 'role:superadmin']);
+$routes->get('profile/password', 'Profile::password');
+
+$routes->resource('profile');
+
+$routes->resource('stations', ['except' => ['index', 'show'], 'filter' => 'role:superadmin']);
+$routes->resource('stations', ['only' => ['index', 'show']]);
+$routes->resource('positions', ['filter' => 'role:superadmin']);
+$routes->get('measurement', ['filter' => 'role:superadmin,admin']);
+$routes->resource('map');
+$routes->resource('data', ['filter' => 'role:superadmin,admin']);
+$routes->resource('user', ['controller' => 'Users', 'filter' => 'role:superadmin,admin']);
 
 // $routes->post('/map/new', 'Map::create');
 

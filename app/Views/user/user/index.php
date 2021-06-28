@@ -27,6 +27,9 @@
                                     <th>Username</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <?php if (in_groups('superadmin')) : ?>
+                                        <th>By</th>
+                                    <?php endif; ?>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -38,6 +41,15 @@
                                         <td class="align-middle"><?= $user['username']; ?></td>
                                         <td class="align-middle"><?= $user['email']; ?></td>
                                         <td class="align-middle"><?= $user['description']; ?></td>
+                                        <?php if (in_groups('superadmin')) : ?>
+                                            <td class="align-middle">
+                                                <?php if ($user['admin'] == "superadmin") : ?>
+                                                    -
+                                                <?php else : ?>
+                                                    <?= $user['admin']; ?>
+                                                <?php endif; ?>
+                                            </td>
+                                        <?php endif; ?>
                                         <td class="align-middle">
                                             <a href="user/<?= $user['userid']; ?>" class="btn btn-info">Detail</a>
                                             <a href="user/<?= $user['userid']; ?>/edit" class="btn btn-warning">Edit</a>

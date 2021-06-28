@@ -44,12 +44,14 @@
         </li>
     <?php endif; ?>
 
-    <!-- Nav Item - Measurement -->
-    <li class="nav-item <?= uri_string() == 'Measurement' ? 'active' : '' ?>">
-        <a class="nav-link" href="<?= base_url('Measurement'); ?>">
-            <i class="fas fa-fw fa-pallet"></i>
-            <span>Measurement</span></a>
-    </li>
+    <?php if (in_groups(['superadmin', 'admin'])) : ?>
+        <!-- Nav Item - Measurement -->
+        <li class="nav-item <?= uri_string() == 'Measurement' ? 'active' : '' ?>">
+            <a class="nav-link" href="<?= base_url('Measurement'); ?>">
+                <i class="fas fa-fw fa-pallet"></i>
+                <span>Measurement</span></a>
+        </li>
+    <?php endif; ?>
 
     <!-- Nav Item - Tables -->
     <li class="nav-item <?= uri_string() == 'map' ? 'active' : '' ?>">
@@ -58,41 +60,45 @@
             <span>Map</span></a>
     </li>
 
-    <li class="nav-item <?= uri_string() == 'data' || uri_string() == 'data/new' ? 'active' : '' ?>">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataManagement" aria-expanded="true" aria-controls="collapseDataManagement">
-            <i class="fas fa-fw fa-clipboard-list"></i>
-            <span>Data Management</span>
-        </a>
-        <div id="collapseDataManagement" class="collapse" aria-labelledby="headingDataManagement" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a href="<?= base_url('data'); ?>" class="collapse-item <?= uri_string() == 'data' ? 'active' : '' ?>">Data</a>
-                <a href="<?= base_url('data/new'); ?>" class="collapse-item <?= uri_string() == 'data/new' ? 'active' : '' ?>">Upload Data</a>
+    <?php if (in_groups(['superadmin', 'admin'])) : ?>
+        <li class="nav-item <?= uri_string() == 'data' || uri_string() == 'data/new' ? 'active' : '' ?>">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataManagement" aria-expanded="true" aria-controls="collapseDataManagement">
+                <i class="fas fa-fw fa-clipboard-list"></i>
+                <span>Data Management</span>
+            </a>
+            <div id="collapseDataManagement" class="collapse" aria-labelledby="headingDataManagement" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a href="<?= base_url('data'); ?>" class="collapse-item <?= uri_string() == 'data' ? 'active' : '' ?>">Data</a>
+                    <a href="<?= base_url('data/new'); ?>" class="collapse-item <?= uri_string() == 'data/new' ? 'active' : '' ?>">Upload Data</a>
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
+    <?php endif; ?>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        User
-    </div>
-
-    <li class="nav-item <?= uri_string() == 'user' ? 'active' : '' ?>">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUserManagement" aria-expanded="true" aria-controls="collapseUserManagement">
-            <i class="fas fa-fw fa-clipboard-list"></i>
-            <span>User Management</span>
-        </a>
-        <div id="collapseUserManagement" class="collapse" aria-labelledby="headingDataManagement" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a href="<?= base_url('user'); ?>" class="collapse-item <?= uri_string() == 'user' ? 'active' : '' ?>">User</a>
-            </div>
+    <?php if (in_groups(['superadmin', 'admin'])) : ?>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            User
         </div>
-    </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+        <li class="nav-item <?= uri_string() == 'user' ? 'active' : '' ?>">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUserManagement" aria-expanded="true" aria-controls="collapseUserManagement">
+                <i class="fas fa-fw fa-clipboard-list"></i>
+                <span>User Management</span>
+            </a>
+            <div id="collapseUserManagement" class="collapse" aria-labelledby="headingDataManagement" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a href="<?= base_url('user'); ?>" class="collapse-item <?= uri_string() == 'user' ? 'active' : '' ?>">User</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+    <?php endif; ?>
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

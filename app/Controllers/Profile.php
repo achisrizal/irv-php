@@ -6,16 +6,18 @@ use CodeIgniter\RESTful\ResourceController;
 use \Myth\Auth\Models\UserModel;
 use \Myth\Auth\Entities\User;
 use \Myth\Auth\Config\Auth;
-
+use \App\Models\UsersModel;
 
 class Profile extends ResourceController
 {
-	protected $userModel, $config;
+	protected $userModel, $config, $usersModel, $user;
 
 	public function __construct()
 	{
 		$this->userModel = new UserModel();
 		$this->config = new Auth();
+		$this->usersModel = new UsersModel();
+		$this->user = new User();
 	}
 
 	/**
@@ -49,7 +51,6 @@ class Profile extends ResourceController
 	 */
 	public function new()
 	{
-		//
 	}
 
 	/**
@@ -69,13 +70,7 @@ class Profile extends ResourceController
 	 */
 	public function edit($id = null)
 	{
-		$data = [
-			'title' => 'Profile - Change Password',
-			'validation' => \Config\Services::validation(),
-			'profile' => $this->stationsModel->getStations($id),
-		];
-
-		return view('user/profile/index', $data);
+		//
 	}
 
 	/**
@@ -96,5 +91,68 @@ class Profile extends ResourceController
 	public function delete($id = null)
 	{
 		//
+	}
+
+	public function password()
+	{
+		$data = [
+			'title' => 'Profile - Change Password',
+			'validation' => \Config\Services::validation(),
+		];
+
+		return view('user/profile/password', $data);
+	}
+
+	public function changePassword($id = null)
+	{
+
+		if (!$this->validate([
+			'pass_old' => 'required',
+			'pass_new' => 'required|min_length[3]',
+			'pass_confirm' => 'required|matches[pass_new]',
+		])) {
+			return redirect()->back()->withInput();
+		}
+
+		$pass_old = $this->request->getVar('pass_old');
+		$pass_new = $this->request->getVar('pass_new');
+
+		$hashOptions = [
+			'cost' => $this->config->hashCost
+		];
+
+		if (password_verify(
+			base64_encode(
+				hash('sha384', $pass_old, true)
+			),
+			user()->password_hash
+		) == false) {
+			session()->setFlashdata('message', 'Wrong old password!');
+			return redirect()->back()->withInput();
+		} else {
+			if ($pass_old == $pass_new) {
+				session()->setFlashdata('message', 'New password cannot be the same as old password!');
+				return redirect()->back()->withInput();
+			} else {
+				$password_hash = password_hash(
+					base64_encode(
+						hash('sha384', $pass_new, true)
+					),
+					$this->config->hashAlgorithm,
+					$hashOptions
+				);
+
+				$data = [
+					'password_hash' => $password_hash,
+				];
+
+				$this->usersModel->update(user_id(), $data);
+				session()->setFlashdata('message', 'Password Changed');
+
+				return redirect()->to('/profile');
+			}
+		}
+
+		// session()->setFlashdata('message', 'Data created successfully');
 	}
 }

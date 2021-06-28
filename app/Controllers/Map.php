@@ -30,8 +30,9 @@ class Map extends ResourceController
 	 */
 	public function index()
 	{
-		if (in_groups('user')) {
-			$user_id = $this->adminuserModel->getAdmin(user_id())['admin_user_id'];
+		if (!in_groups(['superadmin', 'admin'])) {
+			$admin_id = $this->adminuserModel->getAdmin(user_id())->userid;
+			$user_id = $admin_id;
 		} else {
 			$user_id = user_id();
 		}

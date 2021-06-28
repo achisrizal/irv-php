@@ -28,7 +28,7 @@
                                             <a href="/user" class="btn btn-secondary">Back</a>
                                         </div>
                                         <div class="col-auto">
-                                            <button type="submit" class="btn btn-warning">Edit</button>
+                                            <a href="/user/<?= $users['userid']; ?>/edit" class="btn btn-warning">Edit</a>
                                         </div>
                                     </div>
                                 </li>

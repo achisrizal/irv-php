@@ -9,10 +9,10 @@ class AdminUser extends Migration
 	public function up()
 	{
 		$this->forge->addField([
-			'admin_user_id' => [
-				'type' => 'int',
-				'constraint' => 11,
-				'unsigned' => true,
+			'admin' => [
+				'type' => 'varchar',
+				'constraint' => 30,
+				'null' => true,
 			],
 			'user_id' => [
 				'type' => 'int',
@@ -21,9 +21,8 @@ class AdminUser extends Migration
 			],
 		]);
 
-		$this->forge->addKey('id', true);
-		$this->forge->addKey(['admin_user_id', 'user_id', 'position_id']);
-		$this->forge->addForeignKey('admin_user_id', 'users', 'id', false, 'CASCADE');
+		$this->forge->addKey(['admin', 'user_id']);
+		$this->forge->addForeignKey('admin', 'users', 'username', false, 'CASCADE');
 		$this->forge->addForeignKey('user_id', 'users', 'id', false, 'CASCADE');
 		$this->forge->createTable('admin_user', true);
 	}
