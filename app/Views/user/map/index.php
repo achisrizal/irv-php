@@ -68,8 +68,6 @@
                                                 <?php foreach ($positions as $position) : ?>
                                                     <span class="dropdown-item"><input class="form-check-input" type="checkbox" value="<?= $position['id']; ?>" id="select[]" name="select[]" <?= in_array($position['id'], $checked) ? 'checked' : '' ?>><?= $position['name']; ?></span>
                                                 <?php endforeach ?>
-                                                <!-- <a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a> -->
                                             </div>
                                         </div>
                                     </div>
@@ -82,7 +80,6 @@
                 </div>
             </div>
 
-            <!-- <a href="download" type="button" class="btn btn-success btn-sm btn-block" target="_blank">Data Download</a> -->
             <button type="button" id="button" class="btn btn-success btn-sm btn-block" data-toggle="modal" data-target="#downloadModal">
                 Data Download
             </button>

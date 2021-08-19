@@ -46,8 +46,8 @@
 
     <?php if (in_groups(['superadmin', 'admin'])) : ?>
         <!-- Nav Item - Measurement -->
-        <li class="nav-item <?= uri_string() == 'Measurement' ? 'active' : '' ?>">
-            <a class="nav-link" href="<?= base_url('Measurement'); ?>">
+        <li class="nav-item <?= uri_string() == 'measurement' ? 'active' : '' ?>">
+            <a class="nav-link" href="<?= base_url('measurement'); ?>">
                 <i class="fas fa-fw fa-pallet"></i>
                 <span>Measurement</span></a>
         </li>

@@ -40,7 +40,7 @@ function showData() {
   (dataBaru = []), (a = []);
 
   for (i = 0; i < data.length; i++) {
-    if (parseFloat(data[i].amplitude) >= output.textContent) {
+    if (parseFloat(data[i].amplitude_z) >= output.textContent) {
       dataBaru.push(data[i]);
     }
   }
@@ -63,7 +63,7 @@ function showData() {
       "</td><td>" +
       dataBaru[i].lng +
       "</td><td>" +
-      dataBaru[i].amplitude +
+      dataBaru[i].amplitude_z +
       "</td><td>" +
       nearest[0].layer.feature.title +
       ", " +
@@ -75,7 +75,7 @@ function showData() {
 
     contentPopup =
       "Amplitude : " +
-      dataBaru[i].amplitude +
+      dataBaru[i].amplitude_z +
       " m/s<sup>2</sup><br>Latitude : " +
       dataBaru[i].lat +
       "<br>Longitude : " +

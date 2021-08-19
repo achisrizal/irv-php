@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Data extends Migration
+class DataMeasurement extends Migration
 {
 	public function up()
 	{
@@ -19,16 +19,17 @@ class Data extends Migration
 				'type' => 'int',
 				'constraint' => 11,
 				'unsigned' => true,
+				'null' => true,
 			],
 			'date_id' => [
 				'type' => 'int',
-				'constraint' => 10,
+				'constraint' => 11,
 				'unsigned' => true,
 				'null' => true,
 			],
 			'position_id' => [
 				'type' => 'int',
-				'constraint' => 10,
+				'constraint' => 11,
 				'unsigned' => true,
 				'null' => true,
 			],
@@ -79,11 +80,13 @@ class Data extends Migration
 		$this->forge->addForeignKey('user_id', 'users', 'id', false, 'CASCADE');
 		$this->forge->addForeignKey('date_id', 'dates', 'id', false, 'CASCADE');
 		$this->forge->addForeignKey('position_id', 'positions', 'id', false, 'CASCADE');
-		$this->forge->createTable('data', true);
+		$this->forge->addForeignKey('station_start_id', 'stations', 'id', false, 'CASCADE');
+		$this->forge->addForeignKey('station_end_id', 'stations', 'id', false, 'CASCADE');
+		$this->forge->createTable('data_measurement', true);
 	}
 
 	public function down()
 	{
-		$this->forge->dropTable('data', true);
+		$this->forge->dropTable('data_measurement', true);
 	}
 }

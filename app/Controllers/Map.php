@@ -185,7 +185,7 @@ class Map extends ResourceController
 
 			$lat = $column[0] ?? '';
 			$lng = $column[1] ?? '';
-			$amplitude = $column[2] ?? '';
+			$amplitude_z = $column[2] ?? '';
 
 			$row = [
 				'user_id' => $this->request->getVar('user_id'),
@@ -193,7 +193,7 @@ class Map extends ResourceController
 				'position_id' => $position_id,
 				'lat' => $lat,
 				'lng' => $lng,
-				'amplitude' => $amplitude,
+				'amplitude_z' => $amplitude_z,
 				'created_at' => Time::now(),
 				'updated_at' => Time::now(),
 			];

@@ -17,4 +17,106 @@ output.innerHTML = slider.value;
 
 slider.oninput = function () {
   output.innerHTML = this.value;
+  changeNodeThreshold();
 };
+
+function findNode() {
+  var query = `mutation{
+                findNode(find: {
+                  deviceId: "` + deviceId + `",
+                  nodeId: "` + nodeId + `",
+                })
+              }`;
+
+  fetch('https://backend.irv.co.id/graphql', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({
+            query,
+          })
+      })
+      .then(r => r.json())
+      .then(data => console.log('data returned:', data));
+};
+
+function changeNodeThreshold() {
+  var query = `mutation{
+                changeNodeThreshold(find:{
+                  deviceId:"` + deviceId + `",
+                  nodeId:"` + nodeId + `",
+                  threshold: ` + output.textContent + `
+                })
+              }`;
+
+  fetch('https://backend.irv.co.id/graphql', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({
+              query,
+          })
+      })
+      .then(r => r.json())
+      .then(data => console.log('data returned:', data, output.textContent));
+};
+
+
+// function record() {
+//     var d = new Date();
+//     var t = new Date(d.getTime()); d.setSeconds(d.getSeconds() - 3);
+
+//     // startDate:"`+ d.toJSON() + `"
+//     // endDate: "`+ t.toJSON() + `"
+//     // startDate:"2021-07-01T00:00:01Z"
+//     // endDate: "2021-08-01T00:00:01Z"
+//     var query = `query{
+//         vibrations(find:
+//         {
+//             deviceId:"`+ deviceId + `",
+//             nodeIds:["`+ nodeId + `"],
+//             startDate:"`+ d.toJSON() + `"
+//             endDate: "`+ t.toJSON() + `"
+//         } ){
+//             location{
+//                 latitude
+//                 longitude
+//             }
+//             data{
+//                 z
+//                 y
+//                 x
+//             }
+//         }
+//     }`;
+
+//     fetch('https://backend.irv.co.id/graphql', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json',
+//             'Authorization': 'Bearer ' + token
+//         },
+//         body: JSON.stringify({
+//             query,
+//         })
+//     })
+//     .then(r => r.json())
+//     .then(data => console.log('data returned:', data));
+// };
+
+const btn = document.getElementById("record");
+
+btn.addEventListener("click", ()=>{
+    if(btn.innerHTML === '<i class="fas fa-play text-gray-500"></i> Start Recording'){
+        btn.innerHTML = '<i class="fas fa-stop text-gray-500"></i> Stop Recording';
+    }else{
+        btn.innerHTML = '<i class="fas fa-play text-gray-500"></i> Start Recording';
+    }
+})

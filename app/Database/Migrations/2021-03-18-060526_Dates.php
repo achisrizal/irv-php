@@ -20,6 +20,10 @@ class Dates extends Migration
 				'constraint' => 11,
 				'unsigned' => true,
 			],
+			'type' => [
+				'type' => 'varchar',
+				'constraint' => 100,
+			],
 			'date' => [
 				'type' => 'date',
 			],
