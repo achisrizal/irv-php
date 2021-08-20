@@ -71,14 +71,12 @@
                                 <span class="text-sm text-gray-500">Temperature</span>
                             </div>
                         </div>
-                        <form action="" method="post">
-                            <div class="d-flex justify-content-center">
-                                <!-- <button class="btn btn-light"><i class="fas fa-upload text-gray-500"></i> Backup Data</button> -->
-                                <button id="record" class="btn btn-light"><i class="fas fa-play text-gray-500"></i> Start Recording</button>
-                            </div>
-                        </form>
+                        <div class="d-flex justify-content-center">
+                            <!-- <button class="btn btn-light"><i class="fas fa-upload text-gray-500"></i> Backup Data</button> -->
+                            <button id="record" class="btn btn-light"><i class="fas fa-play text-gray-500"></i> Start Recording</button>
+                        </div>
                         <br>
-                        <div class="d-flex justify-content-center nodeList">
+                        <div class="d-flex justify-content-center" id="nodeList">
                             <?php foreach ($gateway['nodes'] as $node) : ?>
                                 <button id="nodeId<?= $node['key']; ?>" name="nodeId" value="<?= $node['id']; ?>" class="btn btn-light btn-sm mb-4 mr-1" onclick="nodeId<?= $node['key']; ?>()"><i class="fas fa-microchip text-gray-500 "></i><?= $node['key']; ?></button>
                             <?php endforeach; ?>
@@ -89,7 +87,7 @@
                         </div>
 
                         <div class="row mb-4">
-                            <button class="btn btn-success btn-block" onclick="findNode()"><i class="fas fa-search"></i> Find Node</button>
+                            <button class="btn btn-success btn-block" id="findNode" onclick="findNode()" disabled><i class="fas fa-search"></i> Find Node</button>
                         </div>
 
                         <div class="row">
@@ -106,7 +104,7 @@
                         <div class="row">
                             <div class="col">
                                 Min Amplitude : <span id="amplitude"></span> m/s<sup>2</sup>
-                                <input type="range" class="custom-range" min="0" max="160" value="10" id="myRange" name="myRange" />
+                                <input type="range" class="custom-range" min="0" max="160" value="10" id="myRange" name="myRange" disabled />
                             </div>
                         </div>
                     </div>
@@ -167,6 +165,21 @@
 
     deviceId = "<?= $gateway['id']; ?>";
     token = "<?= $token; ?>";
+
+    // Add active class to the current button (highlight it)
+    var header = document.getElementById("nodeList");
+    var btns = header.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function() {
+            var current = document.getElementsByClassName("active");
+            if (current.length > 0) {
+                current[0].className = current[0].className.replace(" active", "");
+            }
+            this.className += " active";
+            document.getElementById('findNode').disabled = false;
+            document.getElementById('myRange').disabled = false;
+        });
+    }
 
     <?php foreach ($gateway['nodes'] as $node) : ?>
 

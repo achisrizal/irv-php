@@ -159,21 +159,18 @@ class Map extends ResourceController
 		$date = substr($name, 0, 10);
 		$position_id = substr($name, 11);
 
-		if ($this->validate([
-			$date => 'is_unique[dates.date]',
-		])) {
-			$date_id = $this->datesModel->searchDate($date);
-		}
+		$date_id = $this->datesModel->searchDateAnalysis($date);
 
 		if ($date_id == []) {
 			$data = [
 				'user_id' => $this->request->getVar('user_id'),
 				'date' => $date,
+				'type' => 'Analysis',
 			];
 
 			$this->datesModel->save($data);
 
-			$date_id = $this->datesModel->searchDate($date);
+			$date_id = $this->datesModel->searchDateAnalysis($date);
 		}
 
 		$builder = $this->dataModel->builder();

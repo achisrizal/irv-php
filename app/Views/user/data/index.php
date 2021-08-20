@@ -19,6 +19,7 @@
                         <tr>
                             <th>#</th>
                             <th>Date</th>
+                            <th>Type</th>
                             <th>Total</th>
                             <th>Action</th>
                         </tr>
@@ -30,6 +31,7 @@
                                 <tr>
                                     <th class="align-middle"><?= $i++; ?></th>
                                     <td class="align-middle"><?= $date['date']; ?></td>
+                                    <td class="align-middle"><?= $date['type']; ?></td>
                                     <td class="align-middle"><?= $date['total']; ?></td>
                                     <td class="align-middle">
                                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $date['datesid']; ?>">

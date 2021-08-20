@@ -48,7 +48,7 @@ function changeNodeThreshold() {
                 changeNodeThreshold(find:{
                   deviceId:"` + deviceId + `",
                   nodeId:"` + nodeId + `",
-                  threshold: ` + output.textContent + `
+                  threshold: ` + slider.value + `
                 })
               }`;
 
@@ -64,7 +64,7 @@ function changeNodeThreshold() {
           })
       })
       .then(r => r.json())
-      .then(data => console.log('data returned:', data, output.textContent));
+      .then(data => console.log('data returned:', data, slider.value));
 };
 
 

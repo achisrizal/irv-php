@@ -8,7 +8,7 @@ class DatesModel extends Model
 {
 	protected $table = 'dates';
 	protected $useTimestamps = true;
-	protected $allowedFields = ['user_id', 'date'];
+	protected $allowedFields = ['user_id', 'date', 'type'];
 
 	public function getDates($id = false)
 	{
@@ -22,7 +22,7 @@ class DatesModel extends Model
 	public function countDates($user_id)
 	{
 		$builder = $this->table('dates');
-		$builder->select('dates.id as datesid, date, count(date_id) as total')
+		$builder->select('dates.id as datesid, date, type, count(date_id) as total')
 			->join('data', 'data.date_id = dates.id')
 			->where('dates.user_id', $user_id)
 			->where('data.user_id', $user_id)
@@ -45,11 +45,25 @@ class DatesModel extends Model
 		return $query;
 	}
 
-	public function searchDate($date)
+	public function searchDateAnalysis($date)
 	{
 		$builder = $this->table('dates');
 		$builder->select('id')
 			->where('dates.user_id', user_id())
+			->where('type', 'Analysis')
+			->where('date', $date);
+
+		$query = $builder->get()->getRow();
+
+		return $query;
+	}
+
+	public function searchDateMeasurement($date)
+	{
+		$builder = $this->table('dates');
+		$builder->select('id')
+			->where('dates.user_id', user_id())
+			->where('type', 'Measurement')
 			->where('date', $date);
 
 		$query = $builder->get()->getRow();

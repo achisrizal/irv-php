@@ -9,7 +9,7 @@ use CodeIgniter\I18n\Time;
 
 class Measurement extends ResourceController
 {
-	protected $graphqlModel, $token, $data_measurement, $startDate, $endDate, $nodeId, $deviceId, $statusMeasurement, $timezone = 'Asia/Jakarta';
+	protected $graphqlModel, $token, $data_measurement;
 
 	public function __construct()
 	{
@@ -67,37 +67,12 @@ class Measurement extends ResourceController
 
 		$gateway = $this->graphqlModel->graphqlQuery($query2, $this->token);
 
-		$this->startDate = Time::now($this->timezone)->toDateTimeString();
-		$this->endDate = Time::parse('+ 3 second', $this->timezone)->toDateTimeString();
-
-		$query3 = 'query {
-			vibrations(
-				find: {
-				deviceId: "' . $this->deviceId . '"
-				nodeIds: ["' . $this->nodeId . '"]
-				startDate: "' . $this->startDate . '"
-				endDate: "' . $this->endDate . '"
-				}
-			) {
-				location{
-					latitude
-					longitude
-				}
-				data {
-					z
-					y
-					x
-				}
-			}
-		}';
-
 		$data = [
 			'title' => 'Measurement',
 			'validation' => \Config\Services::validation(),
 			'devices' => $devices['devices'],
 			'gateway' => $gateway['device'],
 			'token' => $this->token,
-			'nodeId' => $this->nodeId,
 		];
 
 		return view('user/measurement/show', $data);
