@@ -5,7 +5,7 @@ namespace App\Controllers;
 use \App\Models\DataModel;
 use \App\Models\DatesModel;
 use \App\Models\AdminuserModel;
-
+use CodeIgniter\I18n\Time;
 use CodeIgniter\RESTful\ResourceController;
 
 class Data extends ResourceController
@@ -72,7 +72,66 @@ class Data extends ResourceController
 	 */
 	public function create()
 	{
-		//
+		if (!$this->validate([
+			'csv' => 'uploaded[csv]',
+		])) {
+			return redirect()->back()->withInput();
+		}
+
+		$filename = $this->request->getFile('csv');
+		$path = $filename->getName();
+		$name = basename($path, ".csv");
+		$file = fopen($filename, 'r');
+		$date = substr($name, 0, 10);
+		$position_id = substr($name, 11);
+
+		$date_id = $this->datesModel->searchDateAnalysis($date);
+
+		if ($date_id == []) {
+			$data = [
+				'user_id' => user_id(),
+				'date' => $date,
+				'type' => 'Analysis',
+			];
+
+			$this->datesModel->save($data);
+
+			$date_id = $this->datesModel->searchDateAnalysis($date);
+		}
+
+		$builder = $this->dataModel->builder();
+
+		$data = [];
+
+		while (!feof($file)) {
+			$column = fgetcsv($file, 0, ",");
+
+			$lat = $column[0] ?? '';
+			$lng = $column[1] ?? '';
+			$amplitude_z = $column[2] ?? '';
+
+			$row = [
+				'user_id' => user_id(),
+				'date_id' => $date_id->id,
+				'position_id' => $position_id,
+				'lat' => $lat,
+				'lng' => $lng,
+				'amplitude_z' => $amplitude_z,
+				'created_at' => Time::now(),
+				'updated_at' => Time::now(),
+			];
+
+			if ($row['lat'] != '') {
+				array_push($data, $row);
+			}
+		}
+
+		$builder->insertBatch($data);
+		fclose($file);
+
+		session()->setFlashdata('message', 'Data created successfully');
+
+		return redirect()->to('/map');
 	}
 
 	/**

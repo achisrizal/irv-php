@@ -62,7 +62,7 @@ class DatesModel extends Model
 	{
 		$builder = $this->table('dates');
 		$builder->select('id')
-			->where('dates.user_id', user_id())
+			// ->where('dates.user_id', user_id())
 			->where('type', 'Measurement')
 			->where('date', $date);
 

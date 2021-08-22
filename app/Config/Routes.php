@@ -33,22 +33,25 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Superadmin::index', ['filter' => 'role:superadmin']);
-$routes->get('/index', 'Superadmin::index', ['filter' => 'role:superadmin']);
-$routes->get('profile/password', 'Profile::password');
-$routes->post('map', 'Map::index');
-$routes->post('measurement/(:segment)', 'Measurement::show/$1', ['filter' => 'role:superadmin,admin']);
+$routes->group('', ['filter' => 'login'], function ($routes) {
+	$routes->get('/', 'Superadmin::index', ['filter' => 'role:superadmin']);
+	$routes->get('/index', 'Superadmin::index', ['filter' => 'role:superadmin']);
+	$routes->get('profile/password', 'Profile::password');
+	$routes->post('map', 'Map::index');
+	$routes->post('measurement/(:segment)', 'Measurement::show/$1', ['filter' => 'role:superadmin,admin']);
 
-$routes->resource('profile');
-$routes->resource('stations', ['except' => ['index', 'show'], 'filter' => 'role:superadmin']);
-$routes->resource('stations', ['only' => ['index', 'show']]);
-$routes->resource('positions', ['filter' => 'role:superadmin']);
-$routes->resource('measurement', ['filter' => 'role:superadmin,admin']);
-$routes->resource('map');
-$routes->resource('data', ['filter' => 'role:superadmin,admin']);
-$routes->resource('user', ['controller' => 'Users', 'filter' => 'role:superadmin,admin']);
+	$routes->resource('profile');
+	$routes->resource('stations', ['except' => ['index', 'show'], 'filter' => 'role:superadmin']);
+	$routes->resource('stations', ['only' => ['index', 'show']]);
+	$routes->resource('positions', ['filter' => 'role:superadmin']);
+	$routes->resource('measurement', ['filter' => 'role:superadmin,admin']);
+	$routes->resource('map');
+	$routes->resource('data', ['filter' => 'role:superadmin,admin']);
+	$routes->resource('user', ['controller' => 'Users', 'filter' => 'role:superadmin,admin']);
+});
 
-// $routes->post('/map/new', 'Map::create');
+
+$routes->get('data-measurement', 'DataMeasurement::index');
 
 /*
  * --------------------------------------------------------------------
