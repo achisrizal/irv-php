@@ -15,6 +15,7 @@
                     <form action="/users/create" method="post">
                         <?= csrf_field() ?>
 
+                        <input type='hidden' name='user_username' value="<?= user()->username; ?>" />
                         <div class="form-group">
                             <label for="role">Role</label>
                             <select name="role" class="form-control">

@@ -101,9 +101,10 @@ class Users extends ResourceController
 		$this->userModel->withGroup($this->request->getVar('role'))->save($user);
 
 		$user_id = $this->usersModel->searchUser($this->request->getVar('username'));
+		$admin = $this->request->getVar('user_username');
 
 		$data = [
-			'admin' => user()->username,
+			'admin' => $admin,
 			'user_id' => $user_id->id,
 		];
 

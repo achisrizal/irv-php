@@ -9,31 +9,31 @@ use CodeIgniter\I18n\Time;
 
 class Measurement extends ResourceController
 {
-	protected $graphqlModel, $token, $data_measurement;
+	protected $graphqlModel, $token, $datameasurementModel, $timezone = 'Asia/Jakarta';
 
 	public function __construct()
 	{
 		$this->graphqlModel = new GraphqlModel();
-		$this->data_measurement = new DatameasurementModel();
+		$this->datameasurementModel = new DatameasurementModel();
 		$this->token = $this->graphqlModel->token()['login']['token'];
 	}
 
 	public function index()
 	{
 		$query1 = 'query {
-			devices {
+			gateways {
 				id
 				name
 				battery
 			}
 		}';
 
-		$devices = $this->graphqlModel->graphqlQuery($query1, $this->token);
+		$gateways = $this->graphqlModel->graphqlQuery($query1, $this->token);
 
 		$data = [
 			'title' => 'Measurement',
 			'validation' => \Config\Services::validation(),
-			'devices' => $devices['devices'],
+			'gateways' => $gateways['gateways'],
 		];
 
 		return view('user/measurement/index', $data);
@@ -42,17 +42,17 @@ class Measurement extends ResourceController
 	public function show($id = null)
 	{
 		$query1 = 'query {
-			devices {
+			gateways {
 				id
 				name
 				battery
 			}
 		}';
 
-		$devices = $this->graphqlModel->graphqlQuery($query1, $this->token);
+		$gateways = $this->graphqlModel->graphqlQuery($query1, $this->token);
 
-		$query2 = 'query {
-			device(id: "' . $id . '") {
+		$query2 = 'query{
+			gateway(where: {gatewayId: "' . $id . '"}){
 				id
 				name
 				signal
@@ -67,12 +67,17 @@ class Measurement extends ResourceController
 
 		$gateway = $this->graphqlModel->graphqlQuery($query2, $this->token);
 
+		// $date = Time::now($this->timezone)->toDateString();
+		$date = '2021-08-21';
+		$result = $this->datameasurementModel->getFilter($date);
+
 		$data = [
 			'title' => 'Measurement',
 			'validation' => \Config\Services::validation(),
-			'devices' => $devices['devices'],
-			'gateway' => $gateway['device'],
+			'gateways' => $gateways['gateways'],
+			'gateway' => $gateway['gateway'],
 			'token' => $this->token,
+			'data' => json_encode($result),
 		];
 
 		return view('user/measurement/show', $data);

@@ -32,15 +32,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($devices as $dev) : ?>
+                                    <?php foreach ($gateways as $gtw) : ?>
                                         <tr>
                                             <td>
-                                                <a href="/measurement/<?= $dev['id']; ?>">
-                                                    <?= $dev['id']; ?>
+                                                <a href="/measurement/<?= $gtw['id']; ?>">
+                                                    <?= $gtw['id']; ?>
                                                 </a>
                                             </td>
-                                            <td><?= $dev['name']; ?></td>
-                                            <td><?= $dev['battery']; ?>%</td>
+                                            <td><?= $gtw['name']; ?></td>
+                                            <td><?= $gtw['battery']; ?>%</td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -157,13 +157,20 @@
 </script>
 
 <!-- Leaflet JS -->
-<script src=" https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="">
-</script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+<!-- Leaflet Heat JS -->
+<script src="<?= base_url('js/leaflet-heat.js'); ?>"></script>
+
+<!-- Leaflet-knn JS -->
+<script src="<?= base_url('js/leaflet-knn.min.js'); ?>"></script>
 
 <script>
-    var deviceId, nodeId, token;
+    var data = <?= $data; ?>;
 
-    deviceId = "<?= $gateway['id']; ?>";
+    var gatewayId, nodeId, token;
+
+    gatewayId = "<?= $gateway['id']; ?>";
     token = "<?= $token; ?>";
 
     // Add active class to the current button (highlight it)

@@ -45,11 +45,11 @@ class DatesModel extends Model
 		return $query;
 	}
 
-	public function searchDateAnalysis($date)
+	public function searchDateAnalysis($date, $user_id)
 	{
 		$builder = $this->table('dates');
 		$builder->select('id')
-			->where('dates.user_id', user_id())
+			->where('dates.user_id', $user_id)
 			->where('type', 'Analysis')
 			->where('date', $date);
 

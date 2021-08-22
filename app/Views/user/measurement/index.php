@@ -32,15 +32,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($devices as $dev) : ?>
+                                    <?php foreach ($gateways as $gtw) : ?>
                                         <tr>
                                             <td>
-                                                <a href="measurement/<?= $dev['id']; ?>">
-                                                    <?= $dev['id']; ?>
+                                                <a href="measurement/<?= $gtw['id']; ?>">
+                                                    <?= $gtw['id']; ?>
                                                 </a>
                                             </td>
-                                            <td><?= $dev['name']; ?></td>
-                                            <td><?= $dev['battery']; ?>%</td>
+                                            <td><?= $gtw['name']; ?></td>
+                                            <td><?= $gtw['battery']; ?>%</td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

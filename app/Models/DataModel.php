@@ -34,18 +34,6 @@ class DataModel extends Model
             ->where('date <=', $end)
             ->wherein('position_id', $checked);
 
-
-        // if ($_POST['start']) {
-        // }
-
-        // $builder->where('date <=', $end);
-        // if ($_POST['end']) {
-        // }
-
-        // $builder->wherein('position_id', $checked);
-        // if ($checked != null) {
-        // }
-
         $query = $builder->get()->getResultArray();
 
         return $query;

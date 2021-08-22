@@ -158,19 +158,20 @@ class Map extends ResourceController
 		$file = fopen($filename, 'r');
 		$date = substr($name, 0, 10);
 		$position_id = substr($name, 11);
+		$user_id = $this->request->getVar('user_id');
 
-		$date_id = $this->datesModel->searchDateAnalysis($date);
+		$date_id = $this->datesModel->searchDateAnalysis($date, $user_id);
 
 		if ($date_id == []) {
 			$data = [
-				'user_id' => $this->request->getVar('user_id'),
+				'user_id' => $user_id,
 				'date' => $date,
 				'type' => 'Analysis',
 			];
 
 			$this->datesModel->save($data);
 
-			$date_id = $this->datesModel->searchDateAnalysis($date);
+			$date_id = $this->datesModel->searchDateAnalysis($date, $user_id);
 		}
 
 		$builder = $this->dataModel->builder();
@@ -185,7 +186,7 @@ class Map extends ResourceController
 			$amplitude_z = $column[2] ?? '';
 
 			$row = [
-				'user_id' => $this->request->getVar('user_id'),
+				'user_id' => $user_id,
 				'date_id' => $date_id->id,
 				'position_id' => $position_id,
 				'lat' => $lat,

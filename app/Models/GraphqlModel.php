@@ -9,12 +9,12 @@ class GraphqlModel extends Model
 	public function token()
 	{
 		$query = 'mutation {
-			login(input: {username: "admin", password: "password"}) {
+			login(input: {username: "kai", password: "kai-password"}) {
 			  token
 			}
 		  }';
 
-		$endpoint = "https://backend.irv.co.id/graphql";
+		$endpoint = "https://backend.staging.irv.co.id/graphql";
 
 		$content = array("query" => $query);
 
@@ -35,7 +35,7 @@ class GraphqlModel extends Model
 
 	public function graphqlQuery($query, $accessToken)
 	{
-		$endpoint = "https://backend.irv.co.id/graphql";
+		$endpoint = "https://backend.staging.irv.co.id/graphql";
 
 		$content = array("query" => $query);
 

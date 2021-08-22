@@ -14,21 +14,101 @@ var tiles = L.tileLayer(
 var slider = document.getElementById("myRange");
 var output = document.getElementById("amplitude");
 output.innerHTML = slider.value;
+showData();
 
 slider.oninput = function () {
   output.innerHTML = this.value;
   changeNodeThreshold();
 };
 
+var dataBaru,
+  heat,
+  a,
+  b,
+  i,
+  j,
+  gj,
+  row,
+  table,
+  stasiun,
+  nearest,
+  circle,
+  contentPopup;
+
+function showData() {
+  (dataBaru = []), (a = []);
+
+  for (var i = 0; i < data.length; i++) {
+    if (parseFloat(data[i].amplitude_z) >= output.textContent) {
+      dataBaru.push(data[i]);
+    }
+  }
+
+  heat = new L.heatLayer(dataBaru, {
+    radius: 15,
+    maxZoom: 8,
+  }).addTo(map);
+
+  // for (var i = 0; i < dataBaru.length; i++) {
+  //   var gj = L.geoJson(geojson);
+  //   nearest = leafletKnn(gj).nearest(
+  //     L.latLng(dataBaru[i].lat, dataBaru[i].lng),
+  //     2
+  //   );
+
+  //   row =
+  //     "<tr><td>" +
+  //     dataBaru[i].lat +
+  //     "</td><td>" +
+  //     dataBaru[i].lng +
+  //     "</td><td>" +
+  //     dataBaru[i].amplitude_z +
+  //     "</td><td>" +
+  //     nearest[0].layer.feature.title +
+  //     ", " +
+  //     nearest[1].layer.feature.title +
+  //     "</td></tr>";
+
+  //   table = document.getElementById("downloadTable");
+  //   table.innerHTML += row;
+
+  //   contentPopup =
+  //     "Amplitude : " +
+  //     dataBaru[i].amplitude_z +
+  //     " m/s<sup>2</sup><br>Latitude : " +
+  //     dataBaru[i].lat +
+  //     "<br>Longitude : " +
+  //     dataBaru[i].lng +
+  //     "<br>Kecepatan : - km/h<br>Stasiun Terdekat : <br>" +
+  //     nearest[0].layer.feature.title +
+  //     "<br>" +
+  //     nearest[1].layer.feature.title +
+  //     "<br><br><b>" +
+  //     dataBaru[i].name +
+  //     "</b>";
+
+  //   circle = new L.circleMarker([dataBaru[i].lat, dataBaru[i].lng], {
+  //     color: "transparent",
+  //     fillColor: "transparent",
+  //     radius: 10,
+  //   })
+  //     .addTo(map)
+  //     .bindTooltip(contentPopup, { direction: "top" });
+
+  //   a.push(circle);
+  // }
+}
+
+// find node 
 function findNode() {
   var query = `mutation{
-                findNode(find: {
-                  deviceId: "` + deviceId + `",
+                findNode(where: {
+                  gatewayId: "` + gatewayId + `",
                   nodeId: "` + nodeId + `",
                 })
               }`;
 
-  fetch('https://backend.irv.co.id/graphql', {
+  fetch('https://backend.staging.irv.co.id/graphql', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -43,16 +123,17 @@ function findNode() {
       .then(data => console.log('data returned:', data));
 };
 
+// change threshold for node 
 function changeNodeThreshold() {
   var query = `mutation{
-                changeNodeThreshold(find:{
-                  deviceId:"` + deviceId + `",
+                changeNodeThreshold(where: {
+                  gatewayId:"` + gatewayId + `",
                   nodeId:"` + nodeId + `",
                   threshold: ` + slider.value + `
                 })
               }`;
 
-  fetch('https://backend.irv.co.id/graphql', {
+  fetch('https://backend.staging.irv.co.id/graphql', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -64,7 +145,7 @@ function changeNodeThreshold() {
           })
       })
       .then(r => r.json())
-      .then(data => console.log('data returned:', data, slider.value));
+      .then(data => console.log('data returned:', data));
 };
 
 
@@ -111,6 +192,7 @@ function changeNodeThreshold() {
 //     .then(data => console.log('data returned:', data));
 // };
 
+// change button 
 const btn = document.getElementById("record");
 
 btn.addEventListener("click", ()=>{
