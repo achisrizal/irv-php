@@ -44,16 +44,16 @@ class DataMeasurement extends ResourceController
 				$nodeId = $gateways['devices'][$i]['nodes'][$j]['id'];
 
 				$startDate = Time::now($this->timezone)->toDateTimeString();
-				$endDate = Time::parse('+ 3 second', $this->timezone)->toDateTimeString();
+				$endDate = Time::parse('+ 1 minute', $this->timezone)->toDateTimeString();
 				$date = Time::now($this->timezone)->toDateString();
 
 				$query2 = 'query {
 					vibrations(
-						find: {
-						deviceId: "' . $gatewayId . '"
+						where: {
+						gatewayId: "' . $gatewayId . '"
 						nodeIds: ["' . $nodeId . '"]
-						startDate: "2021-07-01 00:00:00"
-						endDate: "2021-07-04 00:00:00"
+						startDate: "' . $startDate . '"
+						endDate: "' . $endDate . '"
 						}
 					) {
 						location{
