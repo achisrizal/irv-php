@@ -71,10 +71,19 @@
                                 <span class="text-sm text-gray-500">Temperature</span>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <!-- <button class="btn btn-light"><i class="fas fa-upload text-gray-500"></i> Backup Data</button> -->
-                            <button id="record" class="btn btn-light"><i class="fas fa-play text-gray-500"></i> Start Recording</button>
-                        </div>
+                        <form action="" method="post">
+                            <?php if ($status == "stop") : ?>
+                                <input type='hidden' name='status' value="start" />
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" id="record" class="btn btn-light"><i class="fas fa-play text-gray-500"></i> Start Recording</button>
+                                </div>
+                            <?php else : ?>
+                                <input type='hidden' name='status' value="stop" />
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" id="record" class="btn btn-light"><i class="fas fa-stop text-gray-500"></i> Stop Recording</button>
+                                </div>
+                            <?php endif; ?>
+                        </form>
                         <br>
                         <div class="d-flex justify-content-center" id="nodeList">
                             <?php foreach ($gateway['nodes'] as $node) : ?>

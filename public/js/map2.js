@@ -192,13 +192,21 @@ function changeNodeThreshold() {
 //     .then(data => console.log('data returned:', data));
 // };
 
+function timedRefresh(timeoutPeriod) {
+	setTimeout("location.reload(true);",timeoutPeriod);
+}
+
 // change button 
 const btn = document.getElementById("record");
 
-btn.addEventListener("click", ()=>{
-    if(btn.innerHTML === '<i class="fas fa-play text-gray-500"></i> Start Recording'){
-        btn.innerHTML = '<i class="fas fa-stop text-gray-500"></i> Stop Recording';
-    }else{
-        btn.innerHTML = '<i class="fas fa-play text-gray-500"></i> Start Recording';
-    }
-})
+if(btn.innerHTML === '<i class="fas fa-stop text-gray-500"></i> Stop Recording'){
+  window.onload = timedRefresh(30000);
+}
+
+// btn.addEventListener("click", ()=>{
+//     if(btn.innerHTML === '<i class="fas fa-play text-gray-500"></i> Start Recording'){
+//         btn.innerHTML = '<i class="fas fa-stop text-gray-500"></i> Stop Recording';
+//       }else{
+//         btn.innerHTML = '<i class="fas fa-play text-gray-500"></i> Start Recording';
+//     }
+// })

@@ -54,4 +54,26 @@ class GraphqlModel extends Model
 
 		return $result;
 	}
+
+	public function graphqlSub($sub, $accessToken)
+	{
+		$endpoint = "https://backend.staging.irv.co.id/graphql";
+
+		$content = array("query" => $sub);
+
+		$options = array(
+			"http" => array(
+				"header"  => sprintf("Authorization: Bearer %s", $accessToken),
+				"method"  => "POST",
+				"content" => http_build_query($content)
+			)
+		);
+
+		$context  = stream_context_create($options);
+		$data = json_decode(@file_get_contents($endpoint, false, $context), true);
+
+		$result = $data['data'];
+
+		return $result;
+	}
 }
