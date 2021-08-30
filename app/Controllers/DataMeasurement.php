@@ -10,7 +10,7 @@ use CodeIgniter\RESTful\ResourceController;
 
 class DataMeasurement extends ResourceController
 {
-	protected $graphqlModel, $token, $data_measurement, $datesModel, $timezone = 'Asia/Jakarta';
+	protected $graphqlModel, $token, $data_measurement, $datesModel, $timezone = 'UTC';
 
 	public function __construct()
 	{
@@ -22,12 +22,12 @@ class DataMeasurement extends ResourceController
 
 	public function index()
 	{
-		$query1 = 'query {
+		$query1 = 'query{
 			devices {
+			  id
+			  nodes{
 				id
-				nodes {
-					id
-				}
+			  }
 			}
 		}';
 
@@ -43,19 +43,26 @@ class DataMeasurement extends ResourceController
 			for ($j = 0; $j < $nodesLength; $j++) {
 				$nodeId = $gateways['devices'][$i]['nodes'][$j]['id'];
 
-				$startDate = Time::now($this->timezone)->toDateTimeString();
-				$endDate = Time::parse('+ 1 minute', $this->timezone)->toDateTimeString();
-				$date = Time::now($this->timezone)->toDateString();
+				$startDate = Time::parse('- 1 minute', $this->timezone)->toDateTimeString();
+				$endDate = Time::now($this->timezone)->toDateTimeString();
+				$date = Time::now()->toDateString();
+
+				// startDate: "2021-08-26 05:19:00"
+				// endDate: "2021-08-26 05:20:00"
+
+				// startDate: "' . $startDate . '"
+				// endDate: "' . $endDate . '"
 
 				$query2 = 'query {
 					vibrations(
-						where: {
-						gatewayId: "' . $gatewayId . '"
+						find: {
+						deviceId: "' . $gatewayId . '"
 						nodeIds: ["' . $nodeId . '"]
 						startDate: "' . $startDate . '"
 						endDate: "' . $endDate . '"
 						}
 					) {
+						recordedAt
 						location{
 							latitude
 							longitude
@@ -88,6 +95,7 @@ class DataMeasurement extends ResourceController
 					$measurementLength = count($measurement['vibrations']);
 
 					for ($k = 0; $k < $measurementLength; $k++) {
+						$recordedAt = Time::createFromTimestamp($measurement['vibrations'][$k]['recordedAt'], 'UTC');
 						$lat = $measurement['vibrations'][$k]['location']['latitude'];
 						$lng = $measurement['vibrations'][$k]['location']['longitude'];
 						$amplitude_z = $measurement['vibrations'][$k]['data']['z'][0];
@@ -101,6 +109,7 @@ class DataMeasurement extends ResourceController
 							'amplitude_z' => $amplitude_z,
 							'amplitude_y' => $amplitude_y,
 							'amplitude_x' => $amplitude_x,
+							'recorded_at' => $recordedAt,
 						];
 
 						$this->data_measurement->save($data);

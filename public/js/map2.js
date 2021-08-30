@@ -1,5 +1,6 @@
 //menampilkan map sesuai posisi
-var map = new L.map("map").setView([-7.522, 109.594], 8);
+var map = new L.map("map").setView([latLastData, lngLastData], zoomMap);
+// var map = new L.map("map").setView([-7.522, 109.594], 8);
 
 //map
 var tiles = L.tileLayer(
@@ -39,7 +40,7 @@ function showData() {
   (dataBaru = []), (a = []);
 
   for (var i = 0; i < data.length; i++) {
-    if (parseFloat(data[i].amplitude_z) >= output.textContent) {
+    if (parseFloat(data[i].amplitude_z) > 0) {
       dataBaru.push(data[i]);
     }
   }
@@ -108,7 +109,7 @@ function findNode() {
                 })
               }`;
 
-  fetch('https://backend.staging.irv.co.id/graphql', {
+  fetch('https://backend.irv.co.id/graphql', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -126,14 +127,14 @@ function findNode() {
 // change threshold for node 
 function changeNodeThreshold() {
   var query = `mutation{
-                changeNodeThreshold(where: {
-                  gatewayId:"` + gatewayId + `",
+                changeNodeThreshold(find: {
+                  deviceId:"` + gatewayId + `",
                   nodeId:"` + nodeId + `",
                   threshold: ` + slider.value + `
                 })
               }`;
 
-  fetch('https://backend.staging.irv.co.id/graphql', {
+  fetch('https://backend.irv.co.id/graphql', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -191,6 +192,15 @@ function changeNodeThreshold() {
 //     .then(r => r.json())
 //     .then(data => console.log('data returned:', data));
 // };
+
+document.addEventListener("DOMContentLoaded", function (event) {
+  var scrollpos = localStorage.getItem("scrollpos");
+  if (scrollpos) window.scrollTo(0, scrollpos);
+});
+
+window.onscroll = function (e) {
+  localStorage.setItem("scrollpos", window.scrollY);
+};
 
 function timedRefresh(timeoutPeriod) {
 	setTimeout("location.reload(true);",timeoutPeriod);

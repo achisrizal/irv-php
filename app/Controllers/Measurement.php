@@ -21,7 +21,7 @@ class Measurement extends ResourceController
 	public function index()
 	{
 		$query1 = 'query {
-			gateways {
+			devices {
 				id
 				name
 				battery
@@ -33,7 +33,7 @@ class Measurement extends ResourceController
 		$data = [
 			'title' => 'Measurement',
 			'validation' => \Config\Services::validation(),
-			'gateways' => $gateways['gateways'],
+			'gateways' => $gateways['devices'],
 		];
 
 		return view('user/measurement/index', $data);
@@ -48,7 +48,7 @@ class Measurement extends ResourceController
 		}
 
 		$query1 = 'query {
-			gateways {
+			devices {
 				id
 				name
 				battery
@@ -58,7 +58,7 @@ class Measurement extends ResourceController
 		$gateways = $this->graphqlModel->graphqlQuery($query1, $this->token);
 
 		$query2 = 'query{
-			gateway(where: {gatewayId: "' . $id . '"}){
+			device(id: "' . $id . '"){
 				id
 				name
 				signal
@@ -74,16 +74,32 @@ class Measurement extends ResourceController
 		$gateway = $this->graphqlModel->graphqlQuery($query2, $this->token);
 
 		$date = Time::now($this->timezone)->toDateString();
+
 		$result = $this->datameasurementModel->getFilter($date);
+
+		$lastData = $this->datameasurementModel->getLastData($date);
+
+		$latLastData = '-7.522';
+		$lngLastData = '109.594';
+		$zoomMap = '8';
+
+		if ($lastData != null) {
+			$latLastData = $lastData['lat'];
+			$lngLastData = $lastData['lng'];
+			$zoomMap = '14';
+		}
 
 		$data = [
 			'title' => 'Measurement',
 			'validation' => \Config\Services::validation(),
-			'gateways' => $gateways['gateways'],
-			'gateway' => $gateway['gateway'],
+			'gateways' => $gateways['devices'],
+			'gateway' => $gateway['device'],
 			'token' => $this->token,
 			'data' => json_encode($result),
 			'status' => $this->status,
+			'latLastData' => $latLastData,
+			'lngLastData' => $lngLastData,
+			'zoomMap' => $zoomMap,
 		];
 
 		return view('user/measurement/show', $data);

@@ -31,6 +31,7 @@ class Data extends ResourceController
 			$user_id = user_id();
 		}
 
+
 		$data = [
 			'title' => 'Data on Map',
 			'dates' => $this->datesModel->countDates($user_id),
@@ -84,8 +85,9 @@ class Data extends ResourceController
 		$file = fopen($filename, 'r');
 		$date = substr($name, 0, 10);
 		$position_id = substr($name, 11);
+		$user_id = $this->request->getVar('user_id');
 
-		$date_id = $this->datesModel->searchDateAnalysis($date);
+		$date_id = $this->datesModel->searchDateAnalysis($date, $user_id);
 
 		if ($date_id == []) {
 			$data = [
@@ -96,7 +98,7 @@ class Data extends ResourceController
 
 			$this->datesModel->save($data);
 
-			$date_id = $this->datesModel->searchDateAnalysis($date);
+			$date_id = $this->datesModel->searchDateAnalysis($date, $user_id);
 		}
 
 		$builder = $this->dataModel->builder();

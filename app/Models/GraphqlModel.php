@@ -14,7 +14,7 @@ class GraphqlModel extends Model
 			}
 		  }';
 
-		$endpoint = "https://backend.staging.irv.co.id/graphql";
+		$endpoint = "https://backend.irv.co.id/graphql";
 
 		$content = array("query" => $query);
 
@@ -35,7 +35,7 @@ class GraphqlModel extends Model
 
 	public function graphqlQuery($query, $accessToken)
 	{
-		$endpoint = "https://backend.staging.irv.co.id/graphql";
+		$endpoint = "https://backend.irv.co.id/graphql";
 
 		$content = array("query" => $query);
 

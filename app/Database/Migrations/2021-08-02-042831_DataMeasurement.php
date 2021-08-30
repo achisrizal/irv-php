@@ -65,6 +65,10 @@ class DataMeasurement extends Migration
 				'type' => 'float',
 				'constraint' => '5,2',
 			],
+			'recorded_at' => [
+				'type' => 'datetime',
+				'null' => true,
+			],
 			'created_at' => [
 				'type' => 'datetime',
 				'null' => true,

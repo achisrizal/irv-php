@@ -9,10 +9,11 @@ use \App\Models\PositionsModel;
 use \App\Models\DatesModel;
 use CodeIgniter\I18n\Time;
 use \App\Models\AdminuserModel;
+use App\Models\DatameasurementModel;
 
 class Map extends ResourceController
 {
-	protected $stationsModel, $dataModel, $positionsModel, $datesModel, $adminuserModel;
+	protected $stationsModel, $dataModel, $positionsModel, $datesModel, $adminuserModel, $datameasurementModel;
 
 	public function __construct()
 	{
@@ -21,6 +22,7 @@ class Map extends ResourceController
 		$this->positionsModel = new PositionsModel();
 		$this->datesModel = new DatesModel();
 		$this->adminuserModel = new AdminuserModel();
+		$this->datameasurementModel = new DatameasurementModel();
 	}
 
 	/**
@@ -38,11 +40,13 @@ class Map extends ResourceController
 		}
 
 		$stations = $this->stationsModel->getStations();
-		$start = $this->request->getVar('start');
 		$positions = $this->positionsModel->getPositions();
 		$positionsId = $this->positionsModel->getPositionsId();
 		$first = $this->datesModel->getDateFirst($user_id);
 		$today = Time::createFromDate()->toDateString();
+		$start = $this->request->getVar('start');
+		$end = $today;
+		$type = 'Analysis';
 		$checked = [];
 
 		if (isset($_POST['select'])) {
@@ -55,21 +59,26 @@ class Map extends ResourceController
 
 		if ($first == null) {
 			$result = null;
-			$end = $today;
 		} else {
-			if ($this->request->getVar('start') == null) {
-				$start = $first->date;
-			} else {
+			if ($this->request->getVar('start') != null) {
 				$start = $this->request->getVar('start');
+			} else {
+				$start = $first->date;
 			}
 
-			if ($this->request->getVar('end') == null) {
-				$end = $today;
-			} else {
+			if ($this->request->getVar('end') != null) {
 				$end = $this->request->getVar('end');
 			}
 
-			$result = $this->dataModel->getFilter($user_id, $start, $end, $checked);
+			if ($this->request->getVar('type') != null) {
+				$type = $this->request->getVar('type');
+			}
+
+			if ($type == 'Analysis') {
+				$result = $this->dataModel->getFilter($user_id, $start, $end, $checked, $type);
+			} else {
+				$result = $this->datameasurementModel->getData($start, $end, $type);
+			}
 		}
 
 		$features = [];
@@ -110,6 +119,7 @@ class Map extends ResourceController
 			'positions' => $positions,
 			'dates' => json_encode($this->datesModel->getDates()),
 			'validation' => \Config\Services::validation(),
+			'type' => $type,
 		];
 
 		return view('user/map/index', $data);

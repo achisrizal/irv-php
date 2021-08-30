@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2021 at 06:49 PM
+-- Generation Time: Aug 25, 2021 at 07:58 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -123,6 +123,17 @@ CREATE TABLE `auth_logins` (
   `success` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `auth_logins`
+--
+
+INSERT INTO `auth_logins` (`id`, `ip_address`, `email`, `user_id`, `date`, `success`) VALUES
+(1, '::1', 'admin@mail.com', 2, '2021-08-22 22:55:18', 1),
+(2, '::1', 'superadmin@mail.com', 1, '2021-08-22 23:19:03', 1),
+(3, '::1', 'admin@mail.com', 2, '2021-08-24 11:02:27', 1),
+(4, '::1', 'admin@mail.com', 2, '2021-08-24 22:41:17', 1),
+(5, '::1', 'admin@mail.com', 2, '2021-08-24 22:42:37', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -215,6 +226,7 @@ CREATE TABLE `data_measurement` (
   `amplitude_z` float(5,2) NOT NULL,
   `amplitude_y` float(5,2) NOT NULL,
   `amplitude_x` float(5,2) NOT NULL,
+  `recorded_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -259,9 +271,9 @@ INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`
 (5, '2021-02-17-034933', 'App\\Database\\Migrations\\Stations', 'default', 'App', 1615961688, 2),
 (7, '2021-02-18-051518', 'App\\Database\\Migrations\\Positions', 'default', 'App', 1615963321, 3),
 (30, '2021-05-10-083926', 'App\\Database\\Migrations\\AdminUser', 'default', 'App', 1627882074, 4),
-(37, '2021-03-18-060526', 'App\\Database\\Migrations\\Dates', 'default', 'App', 1629434538, 5),
-(38, '2021-02-18-051911', 'App\\Database\\Migrations\\Data', 'default', 'App', 1629434545, 6),
-(39, '2021-08-02-042831', 'App\\Database\\Migrations\\DataMeasurement', 'default', 'App', 1629434553, 7);
+(40, '2021-03-18-060526', 'App\\Database\\Migrations\\Dates', 'default', 'App', 1629869808, 5),
+(41, '2021-02-18-051911', 'App\\Database\\Migrations\\Data', 'default', 'App', 1629869816, 6),
+(42, '2021-08-02-042831', 'App\\Database\\Migrations\\DataMeasurement', 'default', 'App', 1629869823, 7);
 
 -- --------------------------------------------------------
 
@@ -943,7 +955,7 @@ ALTER TABLE `auth_groups`
 -- AUTO_INCREMENT for table `auth_logins`
 --
 ALTER TABLE `auth_logins`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `auth_permissions`
@@ -985,7 +997,7 @@ ALTER TABLE `dates`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `positions`

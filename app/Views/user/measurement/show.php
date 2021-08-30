@@ -177,10 +177,15 @@
 <script>
     var data = <?= $data; ?>;
 
-    var gatewayId, nodeId, token;
+    var latLastData = <?= $latLastData; ?>;
+    var lngLastData = <?= $lngLastData; ?>;
+    var zoomMap = <?= $zoomMap; ?>;
 
-    gatewayId = "<?= $gateway['id']; ?>";
-    token = "<?= $token; ?>";
+    var gatewayId = "<?= $gateway['id']; ?>";
+
+    var token = "<?= $token; ?>";
+
+    var nodeId;
 
     // Add active class to the current button (highlight it)
     var header = document.getElementById("nodeList");
