@@ -208,4 +208,15 @@
 
 <script src="<?= base_url('js/map2.js'); ?>"></script>
 
+<script>
+    var conn = new WebSocket('ws://backend.staging.irv.co.id/graphql');
+    conn.onopen = function(e) {
+        console.log("Connection established!");
+    };
+
+    conn.onmessage = function(e) {
+        console.log(e.data);
+    };
+</script>
+
 <?= $this->endSection(); ?>

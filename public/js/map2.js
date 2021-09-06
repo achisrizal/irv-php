@@ -210,3 +210,25 @@ if(btn.innerHTML === '<i class="fas fa-stop text-gray-500"></i> Stop Recording')
 //         btn.innerHTML = '<i class="fas fa-play text-gray-500"></i> Start Recording';
 //     }
 // })
+
+function battery() {
+  var query = `subscription {
+    gatewayBattery(gateway_id: "61323609c53397d06bcfc6ff"){
+      payload
+    }
+  }`;
+
+  fetch('https://backend.staging.irv.co.id/graphql', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({
+              query,
+          })
+      })
+      .then(r => r.json())
+      .then(data => console.log('data returned:', data));
+};

@@ -75,7 +75,9 @@ class Measurement extends ResourceController
 		$gateway = $this->graphqlModel->graphqlQuery($query2, $this->token);
 
 		$date = Time::now()->toDateString();
-		$result = $this->datameasurementModel->getFilter($date);
+
+
+		$result = $this->datameasurementModel->getDataToday($date, user_id());
 
 		$data = [
 			'title' => 'Measurement',
