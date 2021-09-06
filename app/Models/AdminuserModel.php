@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
-use SebastianBergmann\CodeCoverage\Driver\Selector;
 
 class AdminuserModel extends Model
 {

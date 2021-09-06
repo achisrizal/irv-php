@@ -56,6 +56,7 @@
                                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $user['userid']; ?>">
                                                 Delete
                                             </button>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

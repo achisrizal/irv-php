@@ -9,7 +9,7 @@ use CodeIgniter\I18n\Time;
 
 class Measurement extends ResourceController
 {
-	protected $graphqlModel, $token, $status, $datameasurementModel, $timezone = 'Asia/Jakarta';
+	protected $graphqlModel, $laod, $token, $status, $datameasurementModel;
 
 	public function __construct()
 	{
@@ -20,6 +20,7 @@ class Measurement extends ResourceController
 
 	public function index()
 	{
+
 		$query1 = 'query {
 			gateways {
 				id
@@ -36,7 +37,7 @@ class Measurement extends ResourceController
 			'gateways' => $gateways['gateways'],
 		];
 
-		return view('user/measurement/index', $data);
+		echo view('user/measurement/index', $data);
 	}
 
 	public function show($id = null)
@@ -73,7 +74,7 @@ class Measurement extends ResourceController
 
 		$gateway = $this->graphqlModel->graphqlQuery($query2, $this->token);
 
-		$date = Time::now($this->timezone)->toDateString();
+		$date = Time::now()->toDateString();
 		$result = $this->datameasurementModel->getFilter($date);
 
 		$data = [

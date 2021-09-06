@@ -32,7 +32,7 @@
                 <div class="card-body">
                     <div class="col">
                         Min Amplitude : <span id="amplitude"></span> m/s<sup>2</sup>
-                        <input type="range" class="custom-range" min="0" max="160" value="10" id="myRange" name="myRange" />
+                        <input type="range" class="custom-range" min="0" max="160" value="0" id="myRange" name="myRange" />
                     </div>
                 </div>
             </div>
@@ -47,28 +47,33 @@
                     <div class="row align-items-center">
                         <div class="col">
                             <form action="" method="post">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Type Data</label>
+                                    <select class="form-control" id="type" name="type">
+                                        <option value="Analysis" <?= $type == "Analysis" ? 'selected' : ''; ?>>Analysis</option>
+                                        <option value="Measurement" <?= $type == "Measurement" ? 'selected' : ''; ?>>Measurement</option>
+                                    </select>
+                                </div>
 
-                                <div class="form-row">
-                                    <div class="form-group mr-3 col">
-                                        <label for="start">Start Date</label>
-                                        <input type="date" class="form-control" id="start" name="start" value="<?= $start ?>">
-                                    </div>
+                                <div class="form-group ">
+                                    <label for="start">Start Date</label>
+                                    <input type="date" class="form-control" id="start" name="start" value="<?= $start ?>">
+                                </div>
 
-                                    <div class="form-group mr-3 col">
-                                        <label for="end">End Date</label>
-                                        <input type="date" class="form-control" id="end" name="end" value="<?= $end ?>">
-                                    </div>
+                                <div class="form-group">
+                                    <label for="end">End Date</label>
+                                    <input type="date" class="form-control" id="end" name="end" value="<?= $end ?>">
+                                </div>
 
-                                    <div class="form-group mr-3 col">
-                                        <div class="btn-group dropright">
-                                            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownPositions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Positions
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownPositions">
-                                                <?php foreach ($positions as $position) : ?>
-                                                    <span class="dropdown-item"><input class="form-check-input" type="checkbox" value="<?= $position['id']; ?>" id="select[]" name="select[]" <?= in_array($position['id'], $checked) ? 'checked' : '' ?>><?= $position['name']; ?></span>
-                                                <?php endforeach ?>
-                                            </div>
+                                <div class="form-group">
+                                    <div class="btn-group dropright">
+                                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownPositions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Positions
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownPositions">
+                                            <?php foreach ($positions as $position) : ?>
+                                                <span class="dropdown-item"><input class="form-check-input" type="checkbox" value="<?= $position['id']; ?>" id="select[]" name="select[]" <?= in_array($position['id'], $checked) ? 'checked' : '' ?>><?= $position['name']; ?></span>
+                                            <?php endforeach ?>
                                         </div>
                                     </div>
                                 </div>

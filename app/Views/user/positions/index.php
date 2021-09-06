@@ -9,7 +9,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
-        <a href="positions/new" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newModal">New Data</a>
+        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newModal">New Data</a>
     </div>
 
     <div class="card shadow mb-4">
@@ -47,6 +47,7 @@
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $position['id']; ?>">
                                         Delete
                                     </button>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

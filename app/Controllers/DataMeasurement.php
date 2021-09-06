@@ -4,13 +4,15 @@ namespace App\Controllers;
 
 use App\Models\DatameasurementModel;
 use App\Models\DatesModel;
+use App\Models\GatewaysModel;
 use App\Models\GraphqlModel;
+use App\Models\PositionsModel;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\RESTful\ResourceController;
 
 class DataMeasurement extends ResourceController
 {
-	protected $graphqlModel, $token, $data_measurement, $datesModel, $timezone = 'Asia/Jakarta';
+	protected $graphqlModel, $token, $data_measurement, $datesModel, $gatewaysModel, $positionsModel, $timezone = 'UTC';
 
 	public function __construct()
 	{
@@ -18,42 +20,55 @@ class DataMeasurement extends ResourceController
 		$this->data_measurement = new DatameasurementModel();
 		$this->token = $this->graphqlModel->token()['login']['token'];
 		$this->datesModel = new DatesModel();
+		$this->gatewaysModel = new GatewaysModel();
+		$this->positionsModel = new PositionsModel();
 	}
 
 	public function index()
 	{
-		$query1 = 'query {
-			devices {
+		$query1 = 'query{
+			gateways{
+			  id
+			  nodes{
 				id
-				nodes {
-					id
-				}
+			  }
 			}
 		}';
 
 		$gateways = $this->graphqlModel->graphqlQuery($query1, $this->token);
 
-		$gatewaysLength = count($gateways['devices']);
+		$gatewaysLength = count($gateways['gateways']);
 
 		for ($i = 0; $i < $gatewaysLength; $i++) {
-			$gatewayId = $gateways['devices'][$i]['id'];
+			$gatewayId = $gateways['gateways'][$i]['id'];
 
-			$nodesLength = count($gateways['devices'][$i]['nodes']);
+			$gatewayUser = $this->gatewaysModel->getUserId($gatewayId);
+
+			if ($gatewayUser != null) {
+				$user_id = $gatewayUser['user_id'];
+			} else {
+				$user_id = null;
+			}
+
+			$nodesLength = count($gateways['gateways'][$i]['nodes']);
 
 			for ($j = 0; $j < $nodesLength; $j++) {
-				$nodeId = $gateways['devices'][$i]['nodes'][$j]['id'];
+				$nodeId = $gateways['gateways'][$i]['nodes'][$j]['id'];
 
 				$startDate = Time::now($this->timezone)->toDateTimeString();
 				$endDate = Time::parse('+ 1 minute', $this->timezone)->toDateTimeString();
-				$date = Time::now($this->timezone)->toDateString();
+				$date = Time::now()->toDateString();
+
+				// startDate: "' . $startDate . '"
+				// endDate: "' . $endDate . '"
 
 				$query2 = 'query {
 					vibrations(
 						where: {
 						gatewayId: "' . $gatewayId . '"
 						nodeIds: ["' . $nodeId . '"]
-						startDate: "' . $startDate . '"
-						endDate: "' . $endDate . '"
+						startDate: "2021-08-24T00:00:00"
+      					endDate: "2021-08-25T00:00:00"
 						}
 					) {
 						location{
@@ -61,9 +76,14 @@ class DataMeasurement extends ResourceController
 							longitude
 						}
 						data {
-							z
-							y
 							x
+							y
+							z
+							nodePosition{
+								trainComponent
+								fr
+								lr
+							}
 						}
 					}
 				}';
@@ -75,7 +95,7 @@ class DataMeasurement extends ResourceController
 
 					if ($date_id == []) {
 						$data = [
-							// 'user_id' => user_id(),
+							'user_id' => $user_id,
 							'date' => $date,
 							'type' => 'Measurement',
 						];
@@ -90,17 +110,25 @@ class DataMeasurement extends ResourceController
 					for ($k = 0; $k < $measurementLength; $k++) {
 						$lat = $measurement['vibrations'][$k]['location']['latitude'];
 						$lng = $measurement['vibrations'][$k]['location']['longitude'];
-						$amplitude_z = $measurement['vibrations'][$k]['data']['z'][0];
+						$amplitude_z = $measurement['vibrations'][$k]['data']['x'][0];
 						$amplitude_y = $measurement['vibrations'][$k]['data']['y'][0];
-						$amplitude_x = $measurement['vibrations'][$k]['data']['x'][0];
+						$amplitude_x = $measurement['vibrations'][$k]['data']['z'][0];
+
+						$nodePosition = $measurement['vibrations'][$k]['data']['nodePosition'];
+
+						$position = $nodePosition['trainComponent'] . ' ' . $nodePosition['fr'] . ' ' . $nodePosition['lr'];
+
+						$position_id = $this->positionsModel->getPositionMeasurement($position);
 
 						$data = [
+							'user_id' => $user_id,
 							'date_id' => intval($date_id->id),
+							'position_id' => $position_id['id'],
 							'lat' => $lat,
 							'lng' => $lng,
-							'amplitude_z' => $amplitude_z,
-							'amplitude_y' => $amplitude_y,
 							'amplitude_x' => $amplitude_x,
+							'amplitude_y' => $amplitude_y,
+							'amplitude_z' => $amplitude_z,
 						];
 
 						$this->data_measurement->save($data);

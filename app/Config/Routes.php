@@ -39,6 +39,7 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 	$routes->get('profile/password', 'Profile::password');
 	$routes->post('map', 'Map::index');
 	$routes->post('measurement/(:segment)', 'Measurement::show/$1', ['filter' => 'role:superadmin,admin']);
+	$routes->delete('gateway/(:segment)/delete', 'Gateways::deleteData/$1', ['filter' => 'role:superadmin']);
 
 	$routes->resource('profile');
 	$routes->resource('stations', ['except' => ['index', 'show'], 'filter' => 'role:superadmin']);
@@ -48,10 +49,13 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 	$routes->resource('map');
 	$routes->resource('data', ['filter' => 'role:superadmin,admin']);
 	$routes->resource('user', ['controller' => 'Users', 'filter' => 'role:superadmin,admin']);
+	$routes->resource('gateway', ['controller' => 'Gateways', 'filter' => 'role:superadmin']);
 });
 
 
 $routes->get('data-measurement', 'DataMeasurement::index');
+// $routes->get('websocket', 'Websocket::start');
+
 
 /*
  * --------------------------------------------------------------------

@@ -10,12 +10,17 @@ class DatameasurementModel extends Model
 	protected $useTimestamps = true;
 	protected $allowedFields = ['user_id', 'date_id', 'position_id', 'station_start_id', 'station_end_id', 'lat', 'lng', 'amplitude_z', 'amplitude_y', 'amplitude_x'];
 
-	public function getFilter($date)
+	public function getFilter($user_id, $start, $end, $checked)
 	{
-		$builder = $this->table('data');
-		$builder->select('data_measurement.id as datameasurementid, lat, lng, amplitude_z, date')
+		$builder = $this->table('data_measurement');
+		$builder->select('data_measurement.id as dataid, lat, lng, amplitude_z, date, name')
 			->join('dates', 'dates.id = data_measurement.date_id')
-			->where('date =', $date);
+			->join('positions', 'positions.id = data_measurement.position_id')
+			->where('data_measurement.user_id', $user_id)
+			->where('dates.user_id', $user_id)
+			->where('date >=', $start)
+			->where('date <=', $end)
+			->wherein('position_id', $checked);
 
 		$query = $builder->get()->getResultArray();
 

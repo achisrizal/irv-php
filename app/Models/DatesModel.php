@@ -19,13 +19,28 @@ class DatesModel extends Model
 		return $this->where(['id' => $id])->first();
 	}
 
-	public function countDates($user_id)
+	public function countDatesAnalysis($user_id)
 	{
 		$builder = $this->table('dates');
-		$builder->select('dates.id as datesid, date, type, count(date_id) as total')
+		$builder->select('dates.id as datesid, date, type, count(data.date_id) as total')
 			->join('data', 'data.date_id = dates.id')
 			->where('dates.user_id', $user_id)
 			->where('data.user_id', $user_id)
+			->groupBy('date')
+			->orderBy('date', 'desc');
+
+		$query = $builder->get()->getResultArray();
+
+		return $query;
+	}
+
+	public function countDatesMeasurement($user_id)
+	{
+		$builder = $this->table('dates');
+		$builder->select('dates.id as datesid, date, type, count(data_measurement.date_id) as total')
+			->join('data_measurement', 'data_measurement.date_id = dates.id')
+			->where('dates.user_id', $user_id)
+			->where('data_measurement.user_id', $user_id)
 			->groupBy('date')
 			->orderBy('date', 'desc');
 
@@ -58,11 +73,11 @@ class DatesModel extends Model
 		return $query;
 	}
 
-	public function searchDateMeasurement($date)
+	public function searchDateMeasurement($date, $user_id)
 	{
 		$builder = $this->table('dates');
 		$builder->select('id')
-			// ->where('dates.user_id', user_id())
+			->where('dates.user_id', $user_id)
 			->where('type', 'Measurement')
 			->where('date', $date);
 

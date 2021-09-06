@@ -26,15 +26,30 @@
                     </thead>
                     <tbody>
                         <?php $i = 1; ?>
-                        <?php foreach ($dates as $date) : ?>
-                            <?php if ($date['total'] > 0) : ?>
+                        <?php foreach ($datesMeasurement as $dateMeasurement) : ?>
+                            <?php if ($dateMeasurement['total'] > 0) : ?>
                                 <tr>
                                     <th class="align-middle"><?= $i++; ?></th>
-                                    <td class="align-middle"><?= $date['date']; ?></td>
-                                    <td class="align-middle"><?= $date['type']; ?></td>
-                                    <td class="align-middle"><?= $date['total']; ?></td>
+                                    <td class="align-middle"><?= $dateMeasurement['date']; ?></td>
+                                    <td class="align-middle"><?= $dateMeasurement['type']; ?></td>
+                                    <td class="align-middle"><?= $dateMeasurement['total']; ?></td>
                                     <td class="align-middle">
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $date['datesid']; ?>">
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $dateMeasurement['datesid']; ?>">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <?php foreach ($datesAnalysis as $dateAnalysis) : ?>
+                            <?php if ($dateAnalysis['total'] > 0) : ?>
+                                <tr>
+                                    <th class="align-middle"><?= $i++; ?></th>
+                                    <td class="align-middle"><?= $dateAnalysis['date']; ?></td>
+                                    <td class="align-middle"><?= $dateAnalysis['type']; ?></td>
+                                    <td class="align-middle"><?= $dateAnalysis['total']; ?></td>
+                                    <td class="align-middle">
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $dateAnalysis['datesid']; ?>">
                                             Delete
                                         </button>
                                     </td>

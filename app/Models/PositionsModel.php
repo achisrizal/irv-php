@@ -27,4 +27,15 @@ class PositionsModel extends Model
 
         return $query;
     }
+
+    public function getPositionMeasurement($position)
+    {
+        $builder = $this->table('positons');
+        $builder->select('id')
+            ->where('name', $position);
+
+        $query = $builder->get()->getRowArray();
+
+        return $query;
+    }
 }

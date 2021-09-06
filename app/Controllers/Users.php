@@ -6,13 +6,15 @@ use CodeIgniter\RESTful\ResourceController;
 use \App\Models\UsersModel;
 use \App\Models\RolesModel;
 use \App\Models\AdminuserModel;
+use App\Models\GatewaysModel;
+use App\Models\GraphqlModel;
 use \Myth\Auth\Models\UserModel;
 use \Myth\Auth\Entities\User;
 use \Myth\Auth\Config\Auth;
 
 class Users extends ResourceController
 {
-	protected $usersModel, $rolesModel, $adminuserModel, $userModel, $config, $authorize;
+	protected $usersModel, $rolesModel, $adminuserModel, $userModel, $config, $authorize, $gateways, $graphql, $token;
 
 	public function __construct()
 	{
@@ -22,6 +24,9 @@ class Users extends ResourceController
 		$this->userModel = new UserModel();
 		$this->config = new Auth();
 		$this->authorize = service('authorization');
+		$this->gateways = new GatewaysModel();
+		$this->graphqlModel = new GraphqlModel();
+		$this->token = $this->graphqlModel->token()['login']['token'];
 	}
 	/**
 	 * Return an array of resource objects, themselves in array format
@@ -48,14 +53,27 @@ class Users extends ResourceController
 	 */
 	public function show($id = null)
 	{
+		$gateways = $this->gateways->getGateways($id);
+
+		$query1 = 'query {
+			gateways {
+				id
+				name
+			}
+		}';
+
+		$gatewaysList = $this->graphqlModel->graphqlQuery($query1, $this->token);
+
 		$data = [
 			'title' => 'User - Detail',
 			'users' => $this->usersModel->getUsers($id),
 			'validation' => \Config\Services::validation(),
+			'gateways' => $this->gateways->getGateways($id),
+			'gatewaysList' => $gatewaysList['gateways'],
 		];
 
 		if (empty($data['users'])) {
-			return redirect()->to('/manage-admin');
+			return redirect()->to('/user');
 		}
 
 		return view('user/user/show', $data);
