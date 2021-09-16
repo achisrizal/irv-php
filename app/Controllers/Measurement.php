@@ -20,7 +20,6 @@ class Measurement extends ResourceController
 
 	public function index()
 	{
-
 		$query1 = 'query {
 			gateways {
 				id
@@ -65,6 +64,10 @@ class Measurement extends ResourceController
 				signal
 				battery
 				temperature
+				location{
+					latitude
+					longitude
+				}
 				nodes {
 					id
 					key

@@ -67,8 +67,8 @@ class DataMeasurement extends ResourceController
 						where: {
 						gatewayId: "' . $gatewayId . '"
 						nodeIds: ["' . $nodeId . '"]
-						startDate: "2021-08-24T00:00:00"
-      					endDate: "2021-08-25T00:00:00"
+						startDate: "2021-09-16T00:00:00"
+      					endDate: "2021-09-17T00:00:00"
 						}
 					) {
 						location{
@@ -91,7 +91,7 @@ class DataMeasurement extends ResourceController
 				$measurement = $this->graphqlModel->graphqlQuery($query2, $this->token);
 
 				if ($measurement['vibrations'] != null) {
-					$date_id = $this->datesModel->searchDateMeasurement($date);
+					$date_id = $this->datesModel->searchDateMeasurement($date, $user_id);
 
 					if ($date_id == []) {
 						$data = [
@@ -102,7 +102,7 @@ class DataMeasurement extends ResourceController
 
 						$this->datesModel->save($data);
 
-						$date_id = $this->datesModel->searchDateMeasurement($date);
+						$date_id = $this->datesModel->searchDateMeasurement($date, $user_id);
 					}
 
 					$measurementLength = count($measurement['vibrations']);

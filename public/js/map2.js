@@ -49,6 +49,8 @@ function showData() {
     maxZoom: 8,
   }).addTo(map);
 
+  var marker = L.marker([lat, lng]).addTo(map);
+
   // for (var i = 0; i < dataBaru.length; i++) {
   //   var gj = L.geoJson(geojson);
   //   nearest = leafletKnn(gj).nearest(

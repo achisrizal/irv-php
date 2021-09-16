@@ -113,7 +113,7 @@
                         <div class="row">
                             <div class="col">
                                 Min Amplitude : <span id="amplitude"></span> m/s<sup>2</sup>
-                                <input type="range" class="custom-range" min="0" max="160" value="10" id="myRange" name="myRange" disabled />
+                                <input type="range" class="custom-range" min="0" max="160" value="0" id="myRange" name="myRange" disabled />
                             </div>
                         </div>
                     </div>
@@ -179,6 +179,9 @@
 
     var gatewayId, nodeId, token;
 
+    var lat = <?= $gateway['location']['latitude']; ?>;
+    var lng = <?= $gateway['location']['longitude']; ?>;
+
     gatewayId = "<?= $gateway['id']; ?>";
     token = "<?= $token; ?>";
 
@@ -208,13 +211,22 @@
 
 <script src="<?= base_url('js/map2.js'); ?>"></script>
 
+<!-- <script>
+    var conn = new WebSocket('ws://localhost:8080/');
+    conn.onopen = function(e) {
+        console.log("Connection established!");
+    };
+
+    conn.onmessage = function(e) {
+        console.log(e.data);
+    };
+</script> -->
 <script>
     var conn = new WebSocket('wss://backend.staging.irv.co.id/graphql');
 
-
     conn.onopen = function(e) {
         console.log("Connection established!");
-        conn.send(`{"id":"3","type":"start","payload":{"variables":{"gatewayId":"6122029cf8afc15072fc2a97","nodeId":"612245a3f8afc15072fc2a98"},"extensions":{},"operationName":"GetNodeBattery","query":"subscription GetNodeBattery($gatewayId: String!, $nodeId: String!) {\n  nodeBattery(gateway_id: $gatewayId, node_id: $nodeId) {\n    payload\n    __typename\n  }\n}\n"}}`);
+        conn.send(`{"id":"3","type":"start","payload":{"variables":{"gatewayId":"61323609c53397d06bcfc6ff"},"extensions":{},"operationName":"GetGatewayBattery","query":"subscription GetGatewayBattery($gatewayId: String!) {\n  gatewayBattery(gateway_id: $gatewayId) {\n    payload\n    __typename\n  }\n}\n"}}`);
     };
 
     conn.onmessage = function(e) {
