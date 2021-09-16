@@ -217,7 +217,7 @@ function battery() {
       payload
     }
   }`;
-
+  
   fetch('https://backend.staging.irv.co.id/graphql', {
           method: 'POST',
           headers: {

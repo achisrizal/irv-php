@@ -209,9 +209,12 @@
 <script src="<?= base_url('js/map2.js'); ?>"></script>
 
 <script>
-    var conn = new WebSocket('ws://backend.staging.irv.co.id/graphql');
+    var conn = new WebSocket('wss://backend.staging.irv.co.id/graphql');
+
+
     conn.onopen = function(e) {
         console.log("Connection established!");
+        conn.send(`{"id":"3","type":"start","payload":{"variables":{"gatewayId":"6122029cf8afc15072fc2a97","nodeId":"612245a3f8afc15072fc2a98"},"extensions":{},"operationName":"GetNodeBattery","query":"subscription GetNodeBattery($gatewayId: String!, $nodeId: String!) {\n  nodeBattery(gateway_id: $gatewayId, node_id: $nodeId) {\n    payload\n    __typename\n  }\n}\n"}}`);
     };
 
     conn.onmessage = function(e) {
