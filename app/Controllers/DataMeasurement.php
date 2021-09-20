@@ -67,10 +67,11 @@ class DataMeasurement extends ResourceController
 						where: {
 						gatewayId: "' . $gatewayId . '"
 						nodeIds: ["' . $nodeId . '"]
-						startDate: "2021-09-16T00:00:00"
-      					endDate: "2021-09-17T00:00:00"
+						startDate: "2021-08-24T00:00:00"
+      					endDate: "2021-08-25T00:00:00"
 						}
 					) {
+						recordedAt
 						location{
 							latitude
 							longitude
@@ -113,6 +114,7 @@ class DataMeasurement extends ResourceController
 						$amplitude_z = $measurement['vibrations'][$k]['data']['x'][0];
 						$amplitude_y = $measurement['vibrations'][$k]['data']['y'][0];
 						$amplitude_x = $measurement['vibrations'][$k]['data']['z'][0];
+						$recorded_at = date('Y-m-d H:i:s', $measurement['vibrations'][$k]['recordedAt']);
 
 						$nodePosition = $measurement['vibrations'][$k]['data']['nodePosition'];
 
@@ -129,6 +131,7 @@ class DataMeasurement extends ResourceController
 							'amplitude_x' => $amplitude_x,
 							'amplitude_y' => $amplitude_y,
 							'amplitude_z' => $amplitude_z,
+							'recorded_at' => $recorded_at,
 						];
 
 						$this->data_measurement->save($data);

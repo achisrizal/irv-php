@@ -199,9 +199,9 @@ function timedRefresh(timeoutPeriod) {
 }
 
 // change button 
-const btn = document.getElementById("record");
+const btn = document.getElementById("refreshing");
 
-if(btn.innerHTML === '<i class="fas fa-stop text-gray-500"></i> Stop Recording'){
+if(btn.innerHTML === '<i class="fas fa-stop text-gray-500"></i> Stop Refreshing'){
   window.onload = timedRefresh(30000);
 }
 

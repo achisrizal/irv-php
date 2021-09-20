@@ -75,12 +75,12 @@
                             <?php if ($status == "stop") : ?>
                                 <input type='hidden' name='status' value="start" />
                                 <div class="d-flex justify-content-center">
-                                    <button type="submit" id="record" class="btn btn-light"><i class="fas fa-play text-gray-500"></i> Start Recording</button>
+                                    <button type="submit" id="refreshing" class="btn btn-light"><i class="fas fa-play text-gray-500"></i> Start Refreshing</button>
                                 </div>
                             <?php else : ?>
                                 <input type='hidden' name='status' value="stop" />
                                 <div class="d-flex justify-content-center">
-                                    <button type="submit" id="record" class="btn btn-light"><i class="fas fa-stop text-gray-500"></i> Stop Recording</button>
+                                    <button type="submit" id="refreshing" class="btn btn-light"><i class="fas fa-stop text-gray-500"></i> Stop Refreshing</button>
                                 </div>
                             <?php endif; ?>
                         </form>
@@ -210,28 +210,5 @@
 </script>
 
 <script src="<?= base_url('js/map2.js'); ?>"></script>
-
-<!-- <script>
-    var conn = new WebSocket('ws://localhost:8080/');
-    conn.onopen = function(e) {
-        console.log("Connection established!");
-    };
-
-    conn.onmessage = function(e) {
-        console.log(e.data);
-    };
-</script> -->
-<script>
-    var conn = new WebSocket('wss://backend.staging.irv.co.id/graphql');
-
-    conn.onopen = function(e) {
-        console.log("Connection established!");
-        conn.send(`{"id":"3","type":"start","payload":{"variables":{"gatewayId":"61323609c53397d06bcfc6ff"},"extensions":{},"operationName":"GetGatewayBattery","query":"subscription GetGatewayBattery($gatewayId: String!) {\n  gatewayBattery(gateway_id: $gatewayId) {\n    payload\n    __typename\n  }\n}\n"}}`);
-    };
-
-    conn.onmessage = function(e) {
-        console.log(e.data);
-    };
-</script>
 
 <?= $this->endSection(); ?>
