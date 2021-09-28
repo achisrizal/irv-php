@@ -67,6 +67,8 @@ class Gateways extends ResourceController
 			'gateway' => $gateway,
 		];
 
+		d($data);
+
 		$this->gatewaysModel->save($data);
 
 		session()->setFlashdata('message', 'Data created successfully');

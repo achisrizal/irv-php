@@ -126,7 +126,6 @@ class Users extends ResourceController
 			'user_id' => $user_id->id,
 		];
 
-		// dd($data);
 		$this->adminuserModel->save($data);
 
 		session()->setFlashdata('message', 'Data created successfully');

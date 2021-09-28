@@ -44,7 +44,7 @@ class Map extends ResourceController
 		$positionsId = $this->positionsModel->getPositionsId();
 		$first = $this->datesModel->getDateFirst($user_id);
 		$today = Time::createFromDate()->toDateString();
-		$start = $this->request->getVar('start');
+		$start = $today;
 		$end = $today;
 		$type = 'Analysis';
 		$checked = [];
@@ -62,8 +62,6 @@ class Map extends ResourceController
 		} else {
 			if ($this->request->getVar('start') != null) {
 				$start = $this->request->getVar('start');
-			} else {
-				$start = $first->date;
 			}
 
 			if ($this->request->getVar('end') != null) {

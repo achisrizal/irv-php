@@ -67,8 +67,8 @@ class DataMeasurement extends ResourceController
 						where: {
 						gatewayId: "' . $gatewayId . '"
 						nodeIds: ["' . $nodeId . '"]
-						startDate: "2021-08-24T00:00:00"
-      					endDate: "2021-08-25T00:00:00"
+						startDate: "' . $startDate . '"
+      					endDate: "' . $endDate . '"
 						}
 					) {
 						recordedAt

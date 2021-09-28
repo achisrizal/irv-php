@@ -1,5 +1,5 @@
 //menampilkan map sesuai posisi
-var map = new L.map("map").setView([-7.522, 109.594], 8);
+var map = new L.map("map").setView([lat, lng], 15);
 
 //map
 var tiles = L.tileLayer(
@@ -25,15 +25,7 @@ var dataBaru,
   heat,
   a,
   b,
-  i,
-  j,
-  gj,
-  row,
-  table,
-  stasiun,
-  nearest,
-  circle,
-  contentPopup;
+  i;
 
 function showData() {
   (dataBaru = []), (a = []);
@@ -49,56 +41,7 @@ function showData() {
     maxZoom: 8,
   }).addTo(map);
 
-  var marker = L.marker([lat, lng]).addTo(map);
-
-  // for (var i = 0; i < dataBaru.length; i++) {
-  //   var gj = L.geoJson(geojson);
-  //   nearest = leafletKnn(gj).nearest(
-  //     L.latLng(dataBaru[i].lat, dataBaru[i].lng),
-  //     2
-  //   );
-
-  //   row =
-  //     "<tr><td>" +
-  //     dataBaru[i].lat +
-  //     "</td><td>" +
-  //     dataBaru[i].lng +
-  //     "</td><td>" +
-  //     dataBaru[i].amplitude_z +
-  //     "</td><td>" +
-  //     nearest[0].layer.feature.title +
-  //     ", " +
-  //     nearest[1].layer.feature.title +
-  //     "</td></tr>";
-
-  //   table = document.getElementById("downloadTable");
-  //   table.innerHTML += row;
-
-  //   contentPopup =
-  //     "Amplitude : " +
-  //     dataBaru[i].amplitude_z +
-  //     " m/s<sup>2</sup><br>Latitude : " +
-  //     dataBaru[i].lat +
-  //     "<br>Longitude : " +
-  //     dataBaru[i].lng +
-  //     "<br>Kecepatan : - km/h<br>Stasiun Terdekat : <br>" +
-  //     nearest[0].layer.feature.title +
-  //     "<br>" +
-  //     nearest[1].layer.feature.title +
-  //     "<br><br><b>" +
-  //     dataBaru[i].name +
-  //     "</b>";
-
-  //   circle = new L.circleMarker([dataBaru[i].lat, dataBaru[i].lng], {
-  //     color: "transparent",
-  //     fillColor: "transparent",
-  //     radius: 10,
-  //   })
-  //     .addTo(map)
-  //     .bindTooltip(contentPopup, { direction: "top" });
-
-  //   a.push(circle);
-  // }
+  marker = L.marker([lat, lng]).addTo(map);
 }
 
 // find node 
@@ -150,50 +93,7 @@ function changeNodeThreshold() {
       .then(data => console.log('data returned:', data));
 };
 
-
-// function record() {
-//     var d = new Date();
-//     var t = new Date(d.getTime()); d.setSeconds(d.getSeconds() - 3);
-
-//     // startDate:"`+ d.toJSON() + `"
-//     // endDate: "`+ t.toJSON() + `"
-//     // startDate:"2021-07-01T00:00:01Z"
-//     // endDate: "2021-08-01T00:00:01Z"
-//     var query = `query{
-//         vibrations(find:
-//         {
-//             deviceId:"`+ deviceId + `",
-//             nodeIds:["`+ nodeId + `"],
-//             startDate:"`+ d.toJSON() + `"
-//             endDate: "`+ t.toJSON() + `"
-//         } ){
-//             location{
-//                 latitude
-//                 longitude
-//             }
-//             data{
-//                 z
-//                 y
-//                 x
-//             }
-//         }
-//     }`;
-
-//     fetch('https://backend.irv.co.id/graphql', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Accept': 'application/json',
-//             'Authorization': 'Bearer ' + token
-//         },
-//         body: JSON.stringify({
-//             query,
-//         })
-//     })
-//     .then(r => r.json())
-//     .then(data => console.log('data returned:', data));
-// };
-
+// auto refresh
 function timedRefresh(timeoutPeriod) {
 	setTimeout("location.reload(true);",timeoutPeriod);
 }
@@ -204,14 +104,6 @@ const btn = document.getElementById("refreshing");
 if(btn.innerHTML === '<i class="fas fa-stop text-gray-500"></i> Stop Refreshing'){
   window.onload = timedRefresh(30000);
 }
-
-// btn.addEventListener("click", ()=>{
-//     if(btn.innerHTML === '<i class="fas fa-play text-gray-500"></i> Start Recording'){
-//         btn.innerHTML = '<i class="fas fa-stop text-gray-500"></i> Stop Recording';
-//       }else{
-//         btn.innerHTML = '<i class="fas fa-play text-gray-500"></i> Start Recording';
-//     }
-// })
 
 function battery() {
   var query = `subscription {

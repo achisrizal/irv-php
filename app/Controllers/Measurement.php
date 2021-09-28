@@ -79,7 +79,6 @@ class Measurement extends ResourceController
 
 		$date = Time::now()->toDateString();
 
-
 		$result = $this->datameasurementModel->getDataToday($date, user_id());
 
 		$data = [
