@@ -64,6 +64,7 @@ class Measurement extends ResourceController
 				signal
 				battery
 				temperature
+				speed
 				location{
 					latitude
 					longitude

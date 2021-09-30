@@ -59,16 +59,22 @@
                         <h4 class="text-center"><?= $gateway['name']; ?></h4>
 
                         <div class="d-flex justify-content-center">
-                            <div class="p-3 text-center align-self-end">
+                            <div class="p-2 text-center align-self-end">
                                 <span class="text-xl"><?= $gateway['battery']; ?>%</span>
                                 <br>
                                 <span class="text-sm text-gray-500">Battery</span>
                             </div>
 
-                            <div class="p-3 text-center align-self-end">
-                                <span class="text-xl"><?= $gateway['temperature']; ?>&degC</span>
+                            <div class="p-2 text-center align-self-end">
+                                <span class="text-xl"><?= round($gateway['temperature'], 2); ?>&degC</span>
                                 <br>
                                 <span class="text-sm text-gray-500">Temperature</span>
+                            </div>
+
+                            <div class="p-2 text-center align-self-end">
+                                <span class="text-xl"><?= round($gateway['speed'], 1); ?> km/h</span>
+                                <br>
+                                <span class="text-sm text-gray-500">Speed</span>
                             </div>
                         </div>
                         <form action="" method="post">

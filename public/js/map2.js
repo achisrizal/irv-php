@@ -18,7 +18,7 @@ showData();
 
 slider.oninput = function () {
   output.innerHTML = this.value;
-  changeNodeThreshold();
+  changeNodeThreshold(); 
 };
 
 var dataBaru,
