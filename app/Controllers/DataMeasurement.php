@@ -62,13 +62,16 @@ class DataMeasurement extends ResourceController
 				// startDate: "' . $startDate . '"
 				// endDate: "' . $endDate . '"
 
+				// startDate: "2021-10-06T00:00:00"
+				// endDate: "2021-10-06T00:00:00"
+
 				$query2 = 'query {
 					vibrations(
 						where: {
 						gatewayId: "' . $gatewayId . '"
 						nodeIds: ["' . $nodeId . '"]
 						startDate: "' . $startDate . '"
-      					endDate: "' . $endDate . '"
+						endDate: "' . $endDate . '"
 						}
 					) {
 						recordedAt
@@ -135,6 +138,8 @@ class DataMeasurement extends ResourceController
 						];
 
 						$this->data_measurement->save($data);
+
+						d($data);
 					}
 				}
 			}

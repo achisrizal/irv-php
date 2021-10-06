@@ -8,7 +8,7 @@ class DatameasurementModel extends Model
 {
 	protected $table = 'data_measurement';
 	protected $useTimestamps = true;
-	protected $allowedFields = ['user_id', 'date_id', 'position_id', 'station_start_id', 'station_end_id', 'lat', 'lng', 'amplitude_z', 'amplitude_y', 'amplitude_x'];
+	protected $allowedFields = ['user_id', 'date_id', 'position_id', 'station_start_id', 'station_end_id', 'lat', 'lng', 'amplitude_z', 'amplitude_y', 'amplitude_x', 'recorded_at'];
 
 	public function getFilter($user_id, $start, $end, $checked)
 	{
