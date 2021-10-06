@@ -59,6 +59,7 @@ class DataMeasurement extends ResourceController
 				$endDate = Time::parse('+ 1 minute', $this->timezone)->toDateTimeString();
 				$date = Time::now()->toDateString();
 
+				d($startDate, $endDate);
 				// startDate: "' . $startDate . '"
 				// endDate: "' . $endDate . '"
 
@@ -70,8 +71,8 @@ class DataMeasurement extends ResourceController
 						where: {
 						gatewayId: "' . $gatewayId . '"
 						nodeIds: ["' . $nodeId . '"]
-						startDate: "' . $startDate . '"
-						endDate: "' . $endDate . '"
+						startDate: "2021-10-06T00:00:00"
+						endDate: "2021-10-07T00:00:00"
 						}
 					) {
 						recordedAt
@@ -138,8 +139,6 @@ class DataMeasurement extends ResourceController
 						];
 
 						$this->data_measurement->save($data);
-
-						d($data);
 					}
 				}
 			}
