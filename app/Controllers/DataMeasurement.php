@@ -59,7 +59,6 @@ class DataMeasurement extends ResourceController
 				$endDate = Time::parse('+ 1 minute', $this->timezone)->toDateTimeString();
 				$date = Time::now()->toDateString();
 
-				d($startDate, $endDate);
 				// startDate: "' . $startDate . '"
 				// endDate: "' . $endDate . '"
 
