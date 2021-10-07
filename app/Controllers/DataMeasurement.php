@@ -114,9 +114,9 @@ class DataMeasurement extends ResourceController
 					for ($k = 0; $k < $measurementLength; $k++) {
 						$lat = $measurement['vibrations'][$k]['location']['latitude'];
 						$lng = $measurement['vibrations'][$k]['location']['longitude'];
-						$amplitude_z = $measurement['vibrations'][$k]['data']['x'][0];
+						$amplitude_x = $measurement['vibrations'][$k]['data']['x'][0];
 						$amplitude_y = $measurement['vibrations'][$k]['data']['y'][0];
-						$amplitude_x = $measurement['vibrations'][$k]['data']['z'][0];
+						$amplitude_z = $measurement['vibrations'][$k]['data']['z'][0];
 						$recorded_at = date('Y-m-d H:i:s', $measurement['vibrations'][$k]['recordedAt']);
 
 						$nodePosition = $measurement['vibrations'][$k]['data']['nodePosition'];
