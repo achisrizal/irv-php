@@ -55,8 +55,8 @@ class DataMeasurement extends ResourceController
 			for ($j = 0; $j < $nodesLength; $j++) {
 				$nodeId = $gateways['gateways'][$i]['nodes'][$j]['id'];
 
-				$startDate = Time::now($this->timezone)->toDateTimeString();
-				$endDate = Time::parse('+ 1 minute', $this->timezone)->toDateTimeString();
+				$startDate = Time::parse('- 1 minute', $this->timezone)->toDateTimeString();
+				$endDate = Time::now($this->timezone)->toDateTimeString();
 				$date = Time::now()->toDateString();
 
 				// startDate: "' . $startDate . '"
