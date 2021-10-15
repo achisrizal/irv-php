@@ -62,16 +62,16 @@ class DataMeasurement extends ResourceController
 				// startDate: "' . $startDate . '"
 				// endDate: "' . $endDate . '"
 
-				// startDate: "2021-10-06T00:00:00"
-				// endDate: "2021-10-06T00:00:00"
+				// startDate: "2021-10-9 00:00:00"
+				// endDate: "2021-10-9 01:20:00"
 
 				$query2 = 'query {
 					vibrations(
 						where: {
 						gatewayId: "' . $gatewayId . '"
 						nodeIds: ["' . $nodeId . '"]
-						startDate: "' . $startDate . '"
-						endDate: "' . $endDate . '"
+						startDate: "2021-10-08 00:00:00"
+						endDate: "2021-10-10 00:00:00"
 						}
 					) {
 						recordedAt
@@ -135,8 +135,10 @@ class DataMeasurement extends ResourceController
 							'amplitude_y' => $amplitude_y,
 							'amplitude_z' => $amplitude_z,
 							'recorded_at' => $recorded_at,
+							'y_per_z' => $amplitude_y / $amplitude_z,
 						];
 
+						// d($data);
 						$this->data_measurement->save($data);
 					}
 				}

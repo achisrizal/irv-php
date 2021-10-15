@@ -53,7 +53,7 @@ class DataMeasurement extends Migration
 				'type' => 'float',
 				'constraint' => '10,4',
 			],
-			'amplitude_z' => [
+			'amplitude_x' => [
 				'type' => 'float',
 				'constraint' => '5,2',
 			],
@@ -61,9 +61,13 @@ class DataMeasurement extends Migration
 				'type' => 'float',
 				'constraint' => '5,2',
 			],
-			'amplitude_x' => [
+			'amplitude_z' => [
 				'type' => 'float',
 				'constraint' => '5,2',
+			],
+			'recorded_at' => [
+				'type' => 'datetime',
+				'null' => true,
 			],
 			'created_at' => [
 				'type' => 'datetime',

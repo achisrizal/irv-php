@@ -73,20 +73,43 @@ function showData() {
     table = document.getElementById("downloadTable");
     table.innerHTML += row;
 
-    contentPopup =
-      "Amplitude : " +
-      dataBaru[i].amplitude_z +
-      " m/s<sup>2</sup><br>Latitude : " +
-      dataBaru[i].lat +
-      "<br>Longitude : " +
-      dataBaru[i].lng +
-      "<br>Kecepatan : - km/h<br>Stasiun Terdekat : <br>" +
-      nearest[0].layer.feature.title +
-      "<br>" +
-      nearest[1].layer.feature.title +
-      "<br><br><b>" +
-      dataBaru[i].name +
-      "</b>";
+    // console.log(dataBaru);
+
+    if(dataBaru[i].y_per_z == null){
+      contentPopup =
+        "Amplitude (z) : " +
+        dataBaru[i].amplitude_z +
+        " m/s<sup>2</sup><br>y/z : " +
+        parseFloat(dataBaru[i].amplitude_y / dataBaru[i].amplitude_z).toFixed(3) +
+        "<br>Latitude : " +
+        dataBaru[i].lat +
+        "<br>Longitude : " +
+        dataBaru[i].lng +
+        "<br>Kecepatan : - km/h<br>Stasiun Terdekat : <br>" +
+        nearest[0].layer.feature.title +
+        "<br>" +
+        nearest[1].layer.feature.title +
+        "<br><br><b>" +
+        dataBaru[i].name +
+        "</b>";
+    }else{
+      contentPopup =
+        "Amplitude (z) : " +
+        dataBaru[i].amplitude_z +
+        " m/s<sup>2</sup><br>y/z : " +
+        dataBaru[i].y_per_z +
+        "<br>Latitude : " +
+        dataBaru[i].lat +
+        "<br>Longitude : " +
+        dataBaru[i].lng +
+        "<br>Kecepatan : - km/h<br>Stasiun Terdekat : <br>" +
+        nearest[0].layer.feature.title +
+        "<br>" +
+        nearest[1].layer.feature.title +
+        "<br><br><b>" +
+        dataBaru[i].name +
+        "</b>";
+    }
 
     circle = new L.circleMarker([dataBaru[i].lat, dataBaru[i].lng], {
       color: "transparent",

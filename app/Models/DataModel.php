@@ -25,7 +25,7 @@ class DataModel extends Model
     public function getFilter($user_id, $start, $end, $checked)
     {
         $builder = $this->table('data');
-        $builder->select('data.id as dataid, lat, lng, amplitude_z, date, name')
+        $builder->select('data.id as dataid, lat, lng, amplitude_y, amplitude_z, date, name, y_per_z')
             ->join('dates', 'dates.id = data.date_id')
             ->join('positions', 'positions.id = data.position_id')
             ->where('data.user_id', $user_id)

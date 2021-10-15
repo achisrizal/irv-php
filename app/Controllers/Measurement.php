@@ -5,14 +5,16 @@ namespace App\Controllers;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\GraphqlModel;
 use App\Models\DatameasurementModel;
+use App\Models\PositionsModel;
 use CodeIgniter\I18n\Time;
 
 class Measurement extends ResourceController
 {
-	protected $graphqlModel, $laod, $token, $status, $datameasurementModel;
+	protected $graphqlModel, $laod, $token, $status, $datameasurementModel, $positionsModel;
 
 	public function __construct()
 	{
+		$this->positionsModel = new PositionsModel();
 		$this->graphqlModel = new GraphqlModel();
 		$this->datameasurementModel = new DatameasurementModel();
 		$this->token = $this->graphqlModel->token()['login']['token'];
@@ -72,11 +74,28 @@ class Measurement extends ResourceController
 				nodes {
 					id
 					key
+					position{
+						trainComponent
+						fr
+						lr
+					}
 				}
 			}
 		}';
 
 		$gateway = $this->graphqlModel->graphqlQuery($query2, $this->token);
+
+		// $nodeLength = count($gateway['gateway']['nodes']);
+
+		// for ($i = 0; $i < $nodeLength; $i++) {
+		// 	$nodePosition = $gateway['gateway']['nodes'][$i]['position'];
+
+		// 	$position = $nodePosition['trainComponent'] . ' ' . $nodePosition['fr'] . ' ' . $nodePosition['lr'];
+
+		// 	$position_id = $this->positionsModel->getPositionMeasurement($position);
+
+		// 	$checked[] = ($position_id['id']);
+		// }
 
 		$date = Time::now()->toDateString();
 
