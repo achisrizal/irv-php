@@ -101,6 +101,9 @@ class Measurement extends ResourceController
 
 		$result = $this->datameasurementModel->getDataToday($date, user_id());
 
+		// set_time_limit(60);
+		// ini_set('memory_limit', '-1');
+
 		$data = [
 			'title' => 'Measurement',
 			'validation' => \Config\Services::validation(),
