@@ -75,12 +75,16 @@ function showData() {
 
     // console.log(dataBaru);
 
-    if(dataBaru[i].y_per_z == null){
+    var G = -9.81;
+    
+    console.log((2 * dataBaru[i].amplitude_y) / (G - dataBaru[i].amplitude_z));
+
+    if(dataBaru[i].p_per_q == null){
       contentPopup =
         "Amplitude (z) : " +
         dataBaru[i].amplitude_z +
         " m/s<sup>2</sup><br>P/Q : " +
-        parseFloat(dataBaru[i].amplitude_y / dataBaru[i].amplitude_z).toFixed(3) +
+        Math.abs(parseFloat((2 * dataBaru[i].amplitude_y) / (G - dataBaru[i].amplitude_z)).toFixed(2)) +
         "<br>Latitude : " +
         dataBaru[i].lat +
         "<br>Longitude : " +
@@ -97,7 +101,7 @@ function showData() {
         "Amplitude (z) : " +
         dataBaru[i].amplitude_z +
         " m/s<sup>2</sup><br>y/z : " +
-        dataBaru[i].y_per_z +
+        dataBaru[i].p_per_q +
         "<br>Latitude : " +
         dataBaru[i].lat +
         "<br>Longitude : " +

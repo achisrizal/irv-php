@@ -70,8 +70,8 @@ class DataMeasurement extends ResourceController
 						where: {
 						gatewayId: "' . $gatewayId . '"
 						nodeIds: ["' . $nodeId . '"]
-						startDate: "' . $startDate . '"
-						endDate: "' . $endDate . '"
+						startDate: "2021-10-9 00:00:00"
+						endDate: "2021-10-9 01:20:00"		
 						}
 					) {
 						recordedAt
@@ -114,9 +114,9 @@ class DataMeasurement extends ResourceController
 					for ($k = 0; $k < $measurementLength; $k++) {
 						$lat = $measurement['vibrations'][$k]['location']['latitude'];
 						$lng = $measurement['vibrations'][$k]['location']['longitude'];
-						$amplitude_x = $measurement['vibrations'][$k]['data']['x'][0];
-						$amplitude_y = $measurement['vibrations'][$k]['data']['y'][0];
-						$amplitude_z = $measurement['vibrations'][$k]['data']['z'][0];
+						$amplitude_x = max($measurement['vibrations'][$k]['data']['x']);
+						$amplitude_y = max($measurement['vibrations'][$k]['data']['y']);
+						$amplitude_z = max($measurement['vibrations'][$k]['data']['z']);
 						$recorded_at = date('Y-m-d H:i:s', $measurement['vibrations'][$k]['recordedAt']);
 
 						$nodePosition = $measurement['vibrations'][$k]['data']['nodePosition'];
@@ -140,8 +140,8 @@ class DataMeasurement extends ResourceController
 							'p_per_q' => abs((2 * $amplitude_y) / ($G - $amplitude_z)),
 						];
 
-						// d($data);
-						$this->data_measurement->save($data);
+						d($data);
+						// $this->data_measurement->save($data);
 					}
 				}
 			}
