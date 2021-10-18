@@ -125,6 +125,8 @@ class DataMeasurement extends ResourceController
 
 						$position_id = $this->positionsModel->getPositionMeasurement($position);
 
+						$G = -9.81;
+
 						$data = [
 							'user_id' => $user_id,
 							'date_id' => intval($date_id->id),
@@ -135,7 +137,7 @@ class DataMeasurement extends ResourceController
 							'amplitude_y' => $amplitude_y,
 							'amplitude_z' => $amplitude_z,
 							'recorded_at' => $recorded_at,
-							'y_per_z' => $amplitude_y / $amplitude_z,
+							'p_per_q' => abs((2 * $amplitude_y) / ($G - $amplitude_z)),
 						];
 
 						// d($data);

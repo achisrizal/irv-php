@@ -9,7 +9,7 @@ class NewColumnData extends Migration
     public function up()
     {
         $this->forge->addColumn('data', [
-            'y_per_z' => [
+            'p_per_q' => [
                 'type' => 'float',
                 'constraint' => '5,2',
                 'after' => 'amplitude_z',
