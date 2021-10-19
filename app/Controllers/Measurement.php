@@ -74,6 +74,7 @@ class Measurement extends ResourceController
 				nodes {
 					id
 					key
+					threshold
 					position{
 						trainComponent
 						fr

@@ -119,7 +119,7 @@
                         <div class="row">
                             <div class="col">
                                 Min Amplitude : <span id="amplitude"></span> m/s<sup>2</sup>
-                                <input type="range" class="custom-range" min="0" max="160" value="0" id="myRange" name="myRange" disabled />
+                                <input type="range" class="custom-range" min="0" max="160" step="0.1" value=<?= $node['threshold']; ?> id="myRange" name="myRange" disabled />
                             </div>
                         </div>
                     </div>
