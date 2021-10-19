@@ -140,8 +140,8 @@ class DataMeasurement extends ResourceController
 							'p_per_q' => abs((2 * $amplitude_y) / ($G - $amplitude_z)),
 						];
 
-						d($data);
-						// $this->data_measurement->save($data);
+						// d($data);
+						$this->data_measurement->save($data);
 					}
 				}
 			}
