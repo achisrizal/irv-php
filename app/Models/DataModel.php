@@ -8,7 +8,7 @@ class DataModel extends Model
 {
     protected $table = 'data';
     protected $useTimestamps = true;
-    protected $allowedFields = ['user_id', 'date_id', 'position_id', 'station_start_id', 'station_end_id', 'lat', 'lng', 'amplitude_z', 'amplitude_y', 'amplitude_x', 'p_per_q'];
+    protected $allowedFields = ['user_id', 'date_id', 'position_id', 'station_start_id', 'station_end_id', 'lat', 'lng', 'amplitude_z', 'amplitude_y', 'amplitude_x', 'p_per_q', 'speed'];
 
     public function getData()
     {
@@ -25,7 +25,7 @@ class DataModel extends Model
     public function getFilter($user_id, $start, $end, $checked)
     {
         $builder = $this->table('data');
-        $builder->select('data.id as dataid, lat, lng, amplitude_y, amplitude_z, date, name, p_per_q')
+        $builder->select('data.id as dataid, lat, lng, amplitude_y, amplitude_z, date, name, p_per_q, speed')
             ->join('dates', 'dates.id = data.date_id')
             ->join('positions', 'positions.id = data.position_id')
             ->where('data.user_id', $user_id)

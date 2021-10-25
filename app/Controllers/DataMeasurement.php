@@ -62,8 +62,8 @@ class DataMeasurement extends ResourceController
 				// startDate: "' . $startDate . '"
 				// endDate: "' . $endDate . '"
 
-				// startDate: "2021-10-9 00:00:00"
-				// endDate: "2021-10-9 01:20:00"
+				// startDate: "2021-10-19 00:00:00"
+				// endDate: "2021-10-20 00:00:00"
 
 				$query2 = 'query {
 					vibrations(

@@ -76,44 +76,39 @@ function showData() {
     // console.log(dataBaru);
 
     var G = -9.81;
-    
-    console.log((2 * dataBaru[i].amplitude_y) / (G - dataBaru[i].amplitude_z));
+
+    if(dataBaru[i].speed == null){
+      var speed = "-";
+    }else{
+      var speed = dataBaru[i].speed;
+    }
+
+    if(dataBaru[i].speed == null){
+      dataBaru[i].speed = "-";
+    }
 
     if(dataBaru[i].p_per_q == null){
-      contentPopup =
-        "Amplitude (z) : " +
-        dataBaru[i].amplitude_z +
-        " m/s<sup>2</sup><br>P/Q : " +
-        Math.abs(parseFloat((2 * dataBaru[i].amplitude_y) / (G - dataBaru[i].amplitude_z)).toFixed(2)) +
-        "<br>Latitude : " +
-        dataBaru[i].lat +
-        "<br>Longitude : " +
-        dataBaru[i].lng +
-        "<br>Kecepatan : - km/h<br>Stasiun Terdekat : <br>" +
-        nearest[0].layer.feature.title +
-        "<br>" +
-        nearest[1].layer.feature.title +
-        "<br><br><b>" +
-        dataBaru[i].name +
-        "</b>";
-    }else{
-      contentPopup =
-        "Amplitude (z) : " +
-        dataBaru[i].amplitude_z +
-        " m/s<sup>2</sup><br>y/z : " +
-        dataBaru[i].p_per_q +
-        "<br>Latitude : " +
-        dataBaru[i].lat +
-        "<br>Longitude : " +
-        dataBaru[i].lng +
-        "<br>Kecepatan : - km/h<br>Stasiun Terdekat : <br>" +
-        nearest[0].layer.feature.title +
-        "<br>" +
-        nearest[1].layer.feature.title +
-        "<br><br><b>" +
-        dataBaru[i].name +
-        "</b>";
+      dataBaru[i].p_per_q = Math.abs(parseFloat((2 * dataBaru[i].amplitude_y) / (G - dataBaru[i].amplitude_z)).toFixed(2));
     }
+
+    contentPopup =
+      "Amplitude (z) : " +
+      dataBaru[i].amplitude_z +
+      " m/s<sup>2</sup><br>y/z : " +
+      dataBaru[i].p_per_q +
+      "<br>Latitude : " +
+      dataBaru[i].lat +
+      "<br>Longitude : " +
+      dataBaru[i].lng +
+      "<br>Kecepatan : " +
+      dataBaru[i].speed +
+      " km/h<br>Stasiun Terdekat : <br>" +
+      nearest[0].layer.feature.title +
+      "<br>" +
+      nearest[1].layer.feature.title +
+      "<br><br><b>" +
+      dataBaru[i].name +
+      "</b>";
 
     circle = new L.circleMarker([dataBaru[i].lat, dataBaru[i].lng], {
       color: "transparent",
