@@ -78,12 +78,6 @@ function showData() {
     var G = -9.81;
 
     if(dataBaru[i].speed == null){
-      var speed = "-";
-    }else{
-      var speed = dataBaru[i].speed;
-    }
-
-    if(dataBaru[i].speed == null){
       dataBaru[i].speed = "-";
     }
 
