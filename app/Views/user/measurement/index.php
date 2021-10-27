@@ -33,15 +33,17 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($gateways as $gtw) : ?>
-                                        <tr>
-                                            <td>
-                                                <a href="measurement/<?= $gtw['id']; ?>">
-                                                    <?= $gtw['id']; ?>
-                                                </a>
-                                            </td>
-                                            <td><?= $gtw['name']; ?></td>
-                                            <td><?= $gtw['battery']; ?>%</td>
-                                        </tr>
+                                        <?php if ($gtw['id'] != '61323609c53397d06bcfc6ff') : ?>
+                                            <tr>
+                                                <td>
+                                                    <a href="measurement/<?= $gtw['id']; ?>">
+                                                        <?= $gtw['id']; ?>
+                                                    </a>
+                                                </td>
+                                                <td><?= $gtw['name']; ?></td>
+                                                <td><?= $gtw['battery']; ?>%</td>
+                                            </tr>
+                                        <?php endif; ?>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
