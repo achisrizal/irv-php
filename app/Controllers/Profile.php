@@ -105,7 +105,6 @@ class Profile extends ResourceController
 
 	public function changePassword($id = null)
 	{
-
 		if (!$this->validate([
 			'pass_old' => 'required',
 			'pass_new' => 'required|min_length[3]',
@@ -116,6 +115,8 @@ class Profile extends ResourceController
 
 		$pass_old = $this->request->getVar('pass_old');
 		$pass_new = $this->request->getVar('pass_new');
+		$user_id = $this->request->getVar('user_id');
+		$user_pass = $this->request->getVar('user_pass');
 
 		$hashOptions = [
 			'cost' => $this->config->hashCost
@@ -125,7 +126,7 @@ class Profile extends ResourceController
 			base64_encode(
 				hash('sha384', $pass_old, true)
 			),
-			user()->password_hash
+			$user_pass
 		) == false) {
 			session()->setFlashdata('message', 'Wrong old password!');
 			return redirect()->back()->withInput();
@@ -146,7 +147,7 @@ class Profile extends ResourceController
 					'password_hash' => $password_hash,
 				];
 
-				$this->usersModel->update(user_id(), $data);
+				$this->usersModel->update($user_id, $data);
 				session()->setFlashdata('message', 'Password Changed');
 
 				return redirect()->to('/profile');

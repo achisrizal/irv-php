@@ -9,7 +9,7 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
-        <button class="btn btn-primary btn-sm" onclick="getLoc(-7.522, 109.594)"><i class="fas fa-map-marked-alt"></i> Recenter Map</button>
+        <button class="btn btn-primary btn-sm" onclick="getLoc(-5.047 , 107.282)"><i class="fas fa-map-marked-alt"></i> Recenter Map</button>
     </div>
 
 
@@ -32,7 +32,7 @@
                 <div class="card-body">
                     <div class="col">
                         Min Amplitude : <span id="amplitude"></span> m/s<sup>2</sup>
-                        <input type="range" class="custom-range" min="0" max="160" value="0" id="myRange" name="myRange" />
+                        <input type="range" class="custom-range" min="0" max="200" value="0" id="myRange" name="myRange" />
                     </div>
                 </div>
             </div>

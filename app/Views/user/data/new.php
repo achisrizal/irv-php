@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <form action="/map/create" method="post" enctype="multipart/form-data">
                         <?= csrf_field(); ?>
-                        <input type='hidden' name='user_id' value="<?= user()->id; ?>" />
+                        <input type='hidden' name='user_id' value="<?= user_id(); ?>" />
                         <div class="form-group">
                             <label for="csv">Select File</label>
                             <div class="custom-file">

@@ -53,8 +53,6 @@ class Users extends ResourceController
 	 */
 	public function show($id = null)
 	{
-		$gateways = $this->gateways->getGateways($id);
-
 		$query1 = 'query {
 			gateways {
 				id
@@ -126,7 +124,9 @@ class Users extends ResourceController
 			'user_id' => $user_id->id,
 		];
 
-		$this->adminuserModel->save($data);
+		// dd($data);
+
+		$this->adminuserModel->insert($data);
 
 		session()->setFlashdata('message', 'Data created successfully');
 

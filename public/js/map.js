@@ -1,5 +1,5 @@
 //menampilkan map sesuai posisi
-var map = new L.map("map").setView([-7.522, 109.594], 8);
+var map = new L.map("map").setView([-5.047 , 107.282], 7);
 
 //map
 var tiles = L.tileLayer(
@@ -57,6 +57,7 @@ function showData() {
       2
     );
 
+    // download
     row =
       "<tr><td>" +
       dataBaru[i].lat +
@@ -73,8 +74,7 @@ function showData() {
     table = document.getElementById("downloadTable");
     table.innerHTML += row;
 
-    // console.log(dataBaru);
-
+    // Popup
     var G = -9.81;
 
     if(dataBaru[i].speed == null){
@@ -145,5 +145,5 @@ map.on("click", function (e) {
 });
 
 function getLoc(lat, lng) {
-  map.setView(new L.LatLng(lat, lng), 8);
+  map.setView(new L.LatLng(lat, lng), 7);
 }

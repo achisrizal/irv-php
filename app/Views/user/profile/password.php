@@ -19,7 +19,8 @@
 
                     <form action="/profile/changePassword" method="post">
                         <?= csrf_field(); ?>
-
+                        <input type='hidden' name='user_id' value="<?= user_id(); ?>" />
+                        <input type='hidden' name='user_pass' value="<?= user()->password_hash; ?>" />
                         <div class="form-group">
                             <label for="pass_old">Old Password</label>
                             <input type="password" class="form-control <?= ($validation->hasError('pass_old')) ? 'is-invalid' : ''; ?>" name="pass_old" id="pass_old" autocomplete="off">
@@ -32,6 +33,12 @@
                             <input type="password" class="form-control <?= ($validation->hasError('pass_new')) ? 'is-invalid' : ''; ?>" name="pass_new" id="pass_new" autocomplete="off">
                             <div class="invalid-feedback">
                                 <?= $validation->getError('pass_new'); ?>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="showPass" onclick="show()">
+                                <label class="form-check-label small" for="showPass">
+                                    show password
+                                </label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -55,5 +62,14 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('JS'); ?>
-
+<script>
+    function show() {
+        var x = document.getElementById("pass_new");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
 <?= $this->endSection(); ?>
