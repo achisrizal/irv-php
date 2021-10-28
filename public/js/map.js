@@ -88,7 +88,7 @@ function showData() {
     contentPopup =
       "Amplitude (z) : " +
       dataBaru[i].amplitude_z +
-      " m/s<sup>2</sup><br>P/Q : " +
+      " m/s<sup>2</sup><br>L/V : " +
       dataBaru[i].p_per_q +
       "<br>Latitude : " +
       dataBaru[i].lat +
