@@ -106,7 +106,7 @@ function showData() {
       "</b>";
 
     circle = new L.circleMarker([dataBaru[i].lat, dataBaru[i].lng], {
-      opacity:0,
+      color: "transparent",
       radius: 10,
     })
       .addTo(map)
