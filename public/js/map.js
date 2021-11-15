@@ -1,5 +1,6 @@
+'use strict';
 //menampilkan map sesuai posisi
-var map = new L.map("map").setView([-5.047 , 107.282], 7);
+var map = new L.map("map", {preferCanvas: true}).setView([-5.047 , 107.282], 7);
 
 //map
 var tiles = L.tileLayer(
@@ -105,8 +106,7 @@ function showData() {
       "</b>";
 
     circle = new L.circleMarker([dataBaru[i].lat, dataBaru[i].lng], {
-      color: "transparent",
-      fillColor: "transparent",
+      opacity:0,
       radius: 10,
     })
       .addTo(map)

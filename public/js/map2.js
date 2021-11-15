@@ -1,3 +1,4 @@
+'use strict';
 //menampilkan map sesuai posisi
 var map = new L.map("map").setView([lat, lng], 15);
 
@@ -53,7 +54,7 @@ function findNode() {
                 })
               }`;
 
-  fetch('https://backend.staging.irv.co.id/graphql', {
+  fetch('https://backend.irv.co.id/graphql', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ function changeNodeThreshold() {
                 })
               }`;
 
-  fetch('https://backend.staging.irv.co.id/graphql', {
+  fetch('https://backend.irv.co.id/graphql', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -112,7 +113,7 @@ function battery() {
     }
   }`;
   
-  fetch('https://backend.staging.irv.co.id/graphql', {
+  fetch('https://backend.irv.co.id/graphql', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
