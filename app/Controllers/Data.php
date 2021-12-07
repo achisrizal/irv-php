@@ -108,12 +108,12 @@ class Data extends ResourceController
 		while (!feof($file)) {
 			$column = fgetcsv($file, 0, ",");
 
-			$lat = $column[0] ?? '';
-			$lng = $column[1] ?? '';
-			$speed = $column[2] ?? '';
-			$amplitude_y = $column[3] ?? '';
-			$amplitude_z = $column[4] ?? '';
-			$p_per_q = $column[5] ?? '';
+			$lat = round($column[0] ?? '', 4);
+			$lng = round($column[1] ?? '', 4);
+			$speed = round($column[2] ?? '', 2);
+			$amplitude_y = round($column[3] ?? '', 2);
+			$amplitude_z = round($column[4] ?? '', 2);
+			$p_per_q = round($column[5] ?? '', 2);
 
 			$row = [
 				'user_id' => user_id(),
