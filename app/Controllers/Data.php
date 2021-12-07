@@ -111,8 +111,9 @@ class Data extends ResourceController
 			$lat = $column[0] ?? '';
 			$lng = $column[1] ?? '';
 			$speed = $column[2] ?? '';
-			$amplitude_y = $column[4] ?? '';
+			$amplitude_y = $column[3] ?? '';
 			$amplitude_z = $column[4] ?? '';
+			$p_per_q = $column[5] ?? '';
 
 			$row = [
 				'user_id' => user_id(),
@@ -123,6 +124,7 @@ class Data extends ResourceController
 				'speed' => $speed,
 				'amplitude_y' => $amplitude_y,
 				'amplitude_z' => $amplitude_z,
+				'p_per_q' => $p_per_q,
 				'created_at' => Time::now(),
 				'updated_at' => Time::now(),
 			];
