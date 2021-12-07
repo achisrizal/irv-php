@@ -111,6 +111,7 @@ class Data extends ResourceController
 			$lat = round($column[0] ?? '', 4);
 			$lng = round($column[1] ?? '', 4);
 			$speed = round($column[2] ?? '', 2);
+			$amplitude_x = round(0, 2);
 			$amplitude_y = round($column[3] ?? '', 2);
 			$amplitude_z = round($column[4] ?? '', 2);
 			$p_per_q = round($column[5] ?? '', 2);
@@ -122,6 +123,7 @@ class Data extends ResourceController
 				'lat' => $lat,
 				'lng' => $lng,
 				'speed' => $speed,
+				'amplitude_x' => $amplitude_x,
 				'amplitude_y' => $amplitude_y,
 				'amplitude_z' => $amplitude_z,
 				'p_per_q' => $p_per_q,

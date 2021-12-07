@@ -8,7 +8,7 @@ class DataModel extends Model
 {
     protected $table = 'data';
     protected $useTimestamps = true;
-    protected $allowedFields = ['user_id', 'date_id', 'position_id', 'station_start_id', 'station_end_id', 'lat', 'lng', 'amplitude_z', 'amplitude_y', 'amplitude_x', 'p_per_q', 'speed'];
+    protected $allowedFields = ['user_id', 'date_id', 'position_id', 'station_start_id', 'station_end_id', 'lat', 'lng', 'speed', 'amplitude_x', 'amplitude_y', 'amplitude_z', 'p_per_q'];
 
     public function getData()
     {

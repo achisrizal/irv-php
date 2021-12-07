@@ -189,9 +189,12 @@ class Map extends ResourceController
 		while (!feof($file)) {
 			$column = fgetcsv($file, 0, ",");
 
-			$lat = $column[0] ?? '';
-			$lng = $column[1] ?? '';
-			$amplitude_z = $column[2] ?? '';
+			$lat = round($column[0] ?? '', 4);
+			$lng = round($column[1] ?? '', 4);
+			$speed = round($column[2] ?? '', 2);
+			$amplitude_y = round($column[3] ?? '', 2);
+			$amplitude_z = round($column[4] ?? '', 2);
+			$p_per_q = round($column[5] ?? '', 2);
 
 			$row = [
 				'user_id' => $user_id,
@@ -199,7 +202,10 @@ class Map extends ResourceController
 				'position_id' => $position_id,
 				'lat' => $lat,
 				'lng' => $lng,
+				'speed' => $speed,
+				'amplitude_y' => $amplitude_y,
 				'amplitude_z' => $amplitude_z,
+				'p_per_q' => $p_per_q,
 				'created_at' => Time::now(),
 				'updated_at' => Time::now(),
 			];
